@@ -1,14 +1,30 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { MessageSquare, Zap, DollarSign, Star, Bot, TrendingUp, Clock, Users, BarChart3, CheckCircle, X, Mail, Phone, MapPin } from 'lucide-react';
 
 function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formType, setFormType] = useState<'demo' | 'question'>('demo');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
+
+  // EmailJS configuration
+  // To set up EmailJS:
+  // 1. Go to https://www.emailjs.com/ and create a free account
+  // 2. Create an email service (Gmail, Outlook, etc.)
+  // 3. Create an email template
+  // 4. Get your Public Key, Service ID, and Template ID
+  // 5. Replace the values below
+  const EMAILJS_CONFIG = {
+    PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // Replace with your EmailJS Public Key
+    SERVICE_ID: 'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
+    TEMPLATE_ID: 'YOUR_TEMPLATE_ID', // Replace with your EmailJS Template ID
+    TO_EMAIL: 'st-valve@mail.ru' // Recipient email
+  };
 
   const openForm = (type: 'demo' | 'question') => {
     setFormType(type);
@@ -20,12 +36,40 @@ function App() {
     setFormData({ name: '', email: '', message: '' });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you can add form submission logic (e.g., send to API, email service, etc.)
-    console.log('Form submitted:', { type: formType, ...formData });
-    alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon.`);
-    closeForm();
+    setIsSubmitting(true);
+
+    try {
+      // Initialize EmailJS with public key
+      emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
+      // Prepare template parameters
+      const templateParams = {
+        to_email: EMAILJS_CONFIG.TO_EMAIL,
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website',
+        message: formData.message,
+        request_type: formType === 'demo' ? 'Demo Request' : 'Question',
+        reply_to: formData.email
+      };
+
+      // Send email
+      await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
+
+      alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
+      closeForm();
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      alert('Sorry, there was an error sending your message. Please try again or contact us directly at info@ioperator.ai');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -41,7 +85,7 @@ function App() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Bot className="w-8 h-8 text-orange-500" />
-            <span className="text-xl font-bold">AI Informant</span>
+            <span className="text-xl font-bold">AI Operator</span>
           </div>
           <div className="flex gap-4">
             <button 
@@ -65,7 +109,7 @@ function App() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
-                AI Informant for Restaurants
+                AI Operator for Restaurants
               </h1>
               <p className="text-xl text-gray-300 mb-8">
                 Automating customer service and communications via Telegram and WhatsApp
@@ -421,7 +465,7 @@ function App() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-4xl font-bold text-center mb-8">Ready for Transformation?</h2>
             <p className="text-xl text-gray-300 text-center mb-16">
-              AI Informant makes restaurant operations <span className="text-orange-500 font-semibold">faster, smarter, and more profitable</span>. Technology that pays for itself from the first month.
+              AI Operator makes restaurant operations <span className="text-orange-500 font-semibold">faster, smarter, and more profitable</span>. Technology that pays for itself from the first month.
             </p>
 
             <div className="grid md:grid-cols-2 gap-6 mb-16">
@@ -552,21 +596,23 @@ function App() {
                   value={formData.message}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg text-white focus:outline-none focus:border-orange-500 transition-colors resize-none"
-                  placeholder={formType === 'demo' ? 'Tell us about your restaurant and we will prepare a personalized demo...' : 'Ask us anything about the AI Informant system...'}
+                  placeholder={formType === 'demo' ? 'Tell us about your restaurant and we will prepare a personalized demo...' : 'Ask us anything about the AI Operator system...'}
                 />
               </div>
 
               <div className="flex gap-4">
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition-colors"
+                  disabled={isSubmitting}
+                  className="flex-1 px-6 py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {formType === 'demo' ? 'Request Demo' : 'Send Question'}
+                  {isSubmitting ? 'Sending...' : (formType === 'demo' ? 'Request Demo' : 'Send Question')}
                 </button>
                 <button
                   type="button"
                   onClick={closeForm}
-                  className="px-6 py-3 border border-gray-700 text-gray-300 font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+                  disabled={isSubmitting}
+                  className="px-6 py-3 border border-gray-700 text-gray-300 font-semibold rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
@@ -582,7 +628,7 @@ function App() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Bot className="w-6 h-6 text-orange-500" />
-                <span className="text-lg font-bold">AI Informant</span>
+                <span className="text-lg font-bold">AI Operator</span>
               </div>
               <p className="text-gray-400 text-sm">
                 AI-powered customer service automation for restaurants. Streamline operations and boost customer satisfaction.
@@ -637,7 +683,7 @@ function App() {
           </div>
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} AI Informant. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} AI Operator. All rights reserved.</p>
             <p className="mt-2">AI-powered restaurant customer service automation</p>
           </div>
         </div>
