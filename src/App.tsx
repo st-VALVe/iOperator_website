@@ -324,7 +324,7 @@ function App() {
 
         <section className="py-20 bg-gradient-to-b from-black to-gray-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-16">Repeat Order Growth</h2>
+            <h2 className="text-4xl font-bold text-center mb-16">{t('repeatOrderGrowth')}</h2>
 
             <div className="grid md:grid-cols-2 gap-8 mb-16">
               <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8">
@@ -332,10 +332,10 @@ function App() {
                   <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center">
                     <Users className="w-6 h-6 text-orange-500" />
                   </div>
-                  <h3 className="text-xl font-bold">Preference Memory</h3>
+                  <h3 className="text-xl font-bold">{t('preferenceMemory')}</h3>
                 </div>
                 <p className="text-gray-300">
-                  The system remembers each customer's favorite dishes and suggests them on the next order
+                  {t('preferenceMemoryDesc')}
                 </p>
               </div>
 
@@ -344,10 +344,10 @@ function App() {
                   <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center">
                     <Star className="w-6 h-6 text-orange-500" />
                   </div>
-                  <h3 className="text-xl font-bold">Personal Congratulations</h3>
+                  <h3 className="text-xl font-bold">{t('personalCongratulations')}</h3>
                 </div>
                 <p className="text-gray-300">
-                  Automatic birthday greetings and special holiday offers
+                  {t('personalCongratulationsDesc')}
                 </p>
               </div>
 
@@ -356,10 +356,10 @@ function App() {
                   <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center">
                     <TrendingUp className="w-6 h-6 text-orange-500" />
                   </div>
-                  <h3 className="text-xl font-bold">Smart Recommendations</h3>
+                  <h3 className="text-xl font-bold">{t('smartRecommendations')}</h3>
                 </div>
                 <p className="text-gray-300">
-                  AI analyzes history and suggests new dishes based on taste preferences
+                  {t('smartRecommendationsDesc')}
                 </p>
               </div>
 
@@ -368,17 +368,17 @@ function App() {
                   <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center">
                     <Clock className="w-6 h-6 text-orange-500" />
                   </div>
-                  <h3 className="text-xl font-bold">Timely Reminders</h3>
+                  <h3 className="text-xl font-bold">{t('timelyReminders')}</h3>
                 </div>
                 <p className="text-gray-300">
-                  Notifications about seasonal menus, promotions, and weekly favorites
+                  {t('timelyRemindersDesc')}
                 </p>
               </div>
             </div>
 
             <div className="bg-orange-900/20 border border-orange-500/50 rounded-xl p-6 mb-12">
               <p className="text-lg text-center">
-                This creates a <span className="font-bold text-orange-500">sense of attention and care</span>. Customers return more often and order more.
+                {t('createsAttention')}
               </p>
             </div>
 
@@ -392,8 +392,8 @@ function App() {
                   </svg>
                 </div>
                 <div className="text-4xl font-bold text-orange-500 mb-2">25-40%</div>
-                <p className="text-xl text-gray-300">Repeat Order Growth</p>
-                <p className="text-sm text-gray-500 mt-2">thanks to personalization</p>
+                <p className="text-xl text-gray-300">{t('repeatOrderGrowthPercent')}</p>
+                <p className="text-sm text-gray-500 mt-2">{t('thanksToPersonalization')}</p>
               </div>
 
               <div>
@@ -405,8 +405,8 @@ function App() {
                   </svg>
                 </div>
                 <div className="text-4xl font-bold text-orange-500 mb-2">35%</div>
-                <p className="text-xl text-gray-300">Average Check Increase</p>
-                <p className="text-sm text-gray-500 mt-2">through smart recommendations</p>
+                <p className="text-xl text-gray-300">{t('averageCheckIncrease')}</p>
+                <p className="text-sm text-gray-500 mt-2">{t('throughSmartRecommendations')}</p>
               </div>
             </div>
           </div>
@@ -414,47 +414,47 @@ function App() {
 
         <section className="py-20 bg-black">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-16">Return on Investment</h2>
+            <h2 className="text-4xl font-bold text-center mb-16">{t('returnOnInvestment')}</h2>
 
             <div className="grid md:grid-cols-3 gap-8 mb-16">
               <div className="border border-gray-700 rounded-2xl p-8">
-                <h3 className="text-xl font-bold mb-6 text-orange-500">Initial Expenses</h3>
+                <h3 className="text-xl font-bold mb-6 text-orange-500">{t('initialExpenses')}</h3>
                 <div className="space-y-4">
                   <div className="bg-gray-900 rounded-lg p-4">
-                    <p className="text-sm text-gray-400 mb-2">System Setup</p>
-                    <p className="text-gray-300">One-time integration with your infrastructure</p>
+                    <p className="text-sm text-gray-400 mb-2">{t('systemSetup')}</p>
+                    <p className="text-gray-300">{t('oneTimeIntegration')}</p>
                   </div>
                   <div className="bg-gray-900 rounded-lg p-4">
-                    <p className="text-sm text-gray-400 mb-2">AI Training</p>
-                    <p className="text-gray-300">Adaptation to your menu and processes</p>
+                    <p className="text-sm text-gray-400 mb-2">{t('aiTraining')}</p>
+                    <p className="text-gray-300">{t('adaptation')}</p>
                   </div>
                 </div>
               </div>
 
               <div className="border border-gray-700 rounded-2xl p-8">
-                <h3 className="text-xl font-bold mb-6 text-orange-500">Monthly Costs</h3>
+                <h3 className="text-xl font-bold mb-6 text-orange-500">{t('monthlyCosts')}</h3>
                 <div className="space-y-4">
                   <div className="bg-gray-900 rounded-lg p-4">
                     <p className="text-sm text-gray-400 mb-2">$50-$200</p>
-                    <p className="text-gray-300">AI platform subscription based on volume</p>
+                    <p className="text-gray-300">{t('platformSubscription')}</p>
                   </div>
                   <div className="bg-gray-900 rounded-lg p-4">
-                    <p className="text-sm text-gray-400 mb-2">Technical Support</p>
-                    <p className="text-gray-300">Included in subscription cost</p>
+                    <p className="text-sm text-gray-400 mb-2">{t('technicalSupport')}</p>
+                    <p className="text-gray-300">{t('includedInCost')}</p>
                   </div>
                 </div>
               </div>
 
               <div className="border border-orange-500 rounded-2xl p-8 bg-gradient-to-br from-orange-500/10 to-orange-600/5">
-                <h3 className="text-xl font-bold mb-6 text-orange-500">Revenue and Savings</h3>
+                <h3 className="text-xl font-bold mb-6 text-orange-500">{t('revenueAndSavings')}</h3>
                 <div className="space-y-4">
                   <div className="bg-gray-900 rounded-lg p-4">
                     <p className="text-sm text-gray-400 mb-2">$2,500+</p>
-                    <p className="text-gray-300">Monthly savings on operators</p>
+                    <p className="text-gray-300">{t('monthlySavings')}</p>
                   </div>
                   <div className="bg-gray-900 rounded-lg p-4">
                     <p className="text-sm text-gray-400 mb-2">15-25%</p>
-                    <p className="text-gray-300">Sales growth through service quality</p>
+                    <p className="text-gray-300">{t('salesGrowth')}</p>
                   </div>
                 </div>
               </div>
@@ -463,18 +463,18 @@ function App() {
             <div className="grid md:grid-cols-3 gap-8 text-center">
               <div>
                 <div className="text-5xl font-bold text-orange-500 mb-2">1-3</div>
-                <p className="text-xl text-gray-300 mb-2">Months to Payback</p>
-                <p className="text-sm text-gray-500">quick return on investment</p>
+                <p className="text-xl text-gray-300 mb-2">{t('monthsToPaybackROI')}</p>
+                <p className="text-sm text-gray-500">{t('quickReturn')}</p>
               </div>
               <div>
                 <div className="text-5xl font-bold text-orange-500 mb-2">$30K+</div>
-                <p className="text-xl text-gray-300 mb-2">Annual Savings</p>
-                <p className="text-sm text-gray-500">per location for average restaurant</p>
+                <p className="text-xl text-gray-300 mb-2">{t('annualSavings')}</p>
+                <p className="text-sm text-gray-500">{t('perLocation')}</p>
               </div>
               <div>
                 <div className="text-5xl font-bold text-orange-500 mb-2">300%</div>
-                <p className="text-xl text-gray-300 mb-2">ROI in First Year</p>
-                <p className="text-sm text-gray-500">including sales growth and savings</p>
+                <p className="text-xl text-gray-300 mb-2">{t('roiFirstYear')}</p>
+                <p className="text-sm text-gray-500">{t('includingGrowth')}</p>
               </div>
             </div>
           </div>
@@ -482,57 +482,57 @@ function App() {
 
         <section className="py-20 bg-gradient-to-b from-black to-gray-900">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-8">Ready for Transformation?</h2>
+            <h2 className="text-4xl font-bold text-center mb-8">{t('readyForTransformation')}</h2>
             <p className="text-xl text-gray-300 text-center mb-16">
-              AI Operator makes restaurant operations <span className="text-orange-500 font-semibold">faster, smarter, and more profitable</span>. Technology that pays for itself from the first month.
+              {t('makesOperations')}
             </p>
 
             <div className="grid md:grid-cols-2 gap-6 mb-16">
               <div className="border border-orange-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <DollarSign className="w-6 h-6 text-orange-500" />
-                  <h3 className="text-lg font-bold">Reduces Costs</h3>
+                  <h3 className="text-lg font-bold">{t('reducesExpenses')}</h3>
                 </div>
-                <p className="text-gray-300">Save up to 95% on operators</p>
+                <p className="text-gray-300">{t('saveUpTo95')}</p>
               </div>
 
               <div className="border border-orange-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <TrendingUp className="w-6 h-6 text-orange-500" />
-                  <h3 className="text-lg font-bold">Increases Sales</h3>
+                  <h3 className="text-lg font-bold">{t('increasesSales')}</h3>
                 </div>
-                <p className="text-gray-300">15-25% revenue growth</p>
+                <p className="text-gray-300">{t('revenueGrowth')}</p>
               </div>
 
               <div className="border border-orange-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <Clock className="w-6 h-6 text-orange-500" />
-                  <h3 className="text-lg font-bold">Works 24/7</h3>
+                  <h3 className="text-lg font-bold">{t('works247Title')}</h3>
                 </div>
-                <p className="text-gray-300">No breaks or days off</p>
+                <p className="text-gray-300">{t('noBreaks')}</p>
               </div>
 
               <div className="border border-orange-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <Star className="w-6 h-6 text-orange-500" />
-                  <h3 className="text-lg font-bold">Improves Experience</h3>
+                  <h3 className="text-lg font-bold">{t('improvesExperience')}</h3>
                 </div>
-                <p className="text-gray-300">Personalization and speed</p>
+                <p className="text-gray-300">{t('personalizationSpeed')}</p>
               </div>
 
               <div className="border border-orange-500 rounded-xl p-6 md:col-span-2">
                 <div className="flex items-center gap-3 mb-3">
                   <BarChart3 className="w-6 h-6 text-orange-500" />
-                  <h3 className="text-lg font-bold">Easy to Scale</h3>
+                  <h3 className="text-lg font-bold">{t('easyToScale')}</h3>
                 </div>
-                <p className="text-gray-300">From one to hundreds of locations</p>
+                <p className="text-gray-300">{t('fromOneToHundreds')}</p>
               </div>
             </div>
 
             <div className="bg-gray-900 border border-orange-500/50 rounded-2xl p-8 mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-center">Next Step</h3>
+              <h3 className="text-2xl font-bold mb-4 text-center">{t('nextStep')}</h3>
               <p className="text-gray-300 text-center mb-6">
-                Ready to connect a <span className="text-orange-500 font-semibold">demo</span> and test the system at your restaurant. You'll see results in the first week.
+                {t('readyToConnect')}
               </p>
             </div>
 
@@ -647,7 +647,7 @@ function App() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Bot className="w-6 h-6 text-orange-500" />
-                <span className="text-lg font-bold">AI Operator</span>
+                <span className="text-lg font-bold">{t('siteName')}</span>
               </div>
               <p className="text-gray-400 text-sm">
                 {t('footerDescription')}
