@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { MessageSquare, Zap, DollarSign, Star, Bot, TrendingUp, Clock, Users, BarChart3, CheckCircle, X, Mail, Phone, MapPin } from 'lucide-react';
+import { MessageSquare, Zap, DollarSign, Star, Bot, TrendingUp, Clock, Users, BarChart3, CheckCircle, X, Mail, Phone, MapPin, Globe } from 'lucide-react';
+import { translations, getTranslation, type Language } from './translations';
 
 function App() {
+  const [language, setLanguage] = useState<Language>('en');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formType, setFormType] = useState<'demo' | 'question'>('demo');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,7 +15,10 @@ function App() {
 
   // Direct email configuration
   // Using mailto: link as primary method - always works, no external services needed
-  const RECIPIENT_EMAIL = 'st-valve@mail.ru';
+  const RECIPIENT_EMAIL = 'antguseinov@gmail.com';
+  const CONTACT_PHONE = '+90 553 878 0888';
+  
+  const t = (key: keyof typeof translations.en) => getTranslation(language, key);
 
   const openForm = (type: 'demo' | 'question') => {
     setFormType(type);
@@ -32,15 +37,15 @@ function App() {
     // Prepare email content
     const subject = encodeURIComponent(
       formType === 'demo' 
-        ? 'Demo Request from AI Operator Website' 
-        : 'Question from AI Operator Website'
+        ? t('requestDemoTitle')
+        : t('askQuestionTitle')
     );
 
     const body = encodeURIComponent(
-      `Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\n` +
-      `From: ${formData.name}\n` +
-      `Email: ${formData.email}\n\n` +
-      `Message:\n${formData.message}\n\n` +
+      `${t('requestType')}: ${formType === 'demo' ? t('requestDemo') : t('askQuestion')}\n\n` +
+      `${t('name')}: ${formData.name}\n` +
+      `${t('email')}: ${formData.email}\n\n` +
+      `${t('message')}:\n${formData.message}\n\n` +
       `---\n` +
       `This message was sent from the contact form on iOperator.ai`
     );
@@ -53,7 +58,7 @@ function App() {
 
     // Show success message
     setTimeout(() => {
-      alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}!\n\nYour email client should open automatically. Please send the email to complete your request.\n\nWe will contact you soon at ${formData.email}.`);
+      alert(`${formType === 'demo' ? t('thankYouDemo') : t('thankYouQuestion')}\n\n${t('emailClientOpen')}\n\n${t('willContactSoon')} ${formData.email}.`);
       closeForm();
       setIsSubmitting(false);
     }, 500);
@@ -72,20 +77,47 @@ function App() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Bot className="w-8 h-8 text-orange-500" />
-            <span className="text-xl font-bold">AI Operator</span>
+            <span className="text-xl font-bold">{t('siteName')}</span>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-center">
+            {/* Language Switcher */}
+            <div className="relative group">
+              <button className="flex items-center gap-2 px-3 py-2 border border-gray-700 rounded-lg hover:border-orange-500 transition-colors">
+                <Globe className="w-4 h-4" />
+                <span className="text-sm font-medium uppercase">{language}</span>
+              </button>
+              <div className="absolute right-0 mt-2 w-32 bg-gray-900 border border-gray-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-orange-500 hover:text-black transition-colors rounded-t-lg ${language === 'en' ? 'bg-orange-500/20 text-orange-500' : ''}`}
+                >
+                  English
+                </button>
+                <button
+                  onClick={() => setLanguage('ru')}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-orange-500 hover:text-black transition-colors ${language === 'ru' ? 'bg-orange-500/20 text-orange-500' : ''}`}
+                >
+                  Русский
+                </button>
+                <button
+                  onClick={() => setLanguage('tr')}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-orange-500 hover:text-black transition-colors rounded-b-lg ${language === 'tr' ? 'bg-orange-500/20 text-orange-500' : ''}`}
+                >
+                  Türkçe
+                </button>
+              </div>
+            </div>
             <button 
               onClick={() => openForm('demo')}
               className="px-6 py-2 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition-colors"
             >
-              Request Demo
+              {t('requestDemo')}
             </button>
             <button 
               onClick={() => openForm('question')}
               className="px-6 py-2 border border-orange-500 text-orange-500 font-semibold rounded-lg hover:bg-orange-500 hover:text-black transition-colors"
             >
-              Ask Question
+              {t('askQuestion')}
             </button>
           </div>
         </nav>
@@ -96,10 +128,10 @@ function App() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
-                AI Operator for Restaurants
+                {t('heroTitle')}
               </h1>
               <p className="text-xl text-gray-300 mb-8">
-                Automating customer service and communications via Telegram and WhatsApp
+                {t('heroSubtitle')}
               </p>
 
               <div className="space-y-6">
@@ -107,8 +139,8 @@ function App() {
                   <div className="flex items-start gap-4">
                     <Zap className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Accelerates Service</h3>
-                      <p className="text-gray-300">Instant responses 24/7</p>
+                      <h3 className="text-lg font-semibold mb-2">{t('acceleratesService')}</h3>
+                      <p className="text-gray-300">{t('instantResponses')}</p>
                     </div>
                   </div>
                 </div>
@@ -117,8 +149,8 @@ function App() {
                   <div className="flex items-start gap-4">
                     <DollarSign className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Reduces Costs</h3>
-                      <p className="text-gray-300">Save up to $7,000/month</p>
+                      <h3 className="text-lg font-semibold mb-2">{t('reducesCosts')}</h3>
+                      <p className="text-gray-300">{t('saveUpTo')}</p>
                     </div>
                   </div>
                 </div>
@@ -127,8 +159,8 @@ function App() {
                   <div className="flex items-start gap-4">
                     <Star className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Improves Quality</h3>
-                      <p className="text-gray-300">Error-free service</p>
+                      <h3 className="text-lg font-semibold mb-2">{t('improvesQuality')}</h3>
+                      <p className="text-gray-300">{t('errorFreeService')}</p>
                     </div>
                   </div>
                 </div>
@@ -140,15 +172,15 @@ function App() {
                 <div className="space-y-4">
                   <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
                     <MessageSquare className="w-8 h-8 text-orange-500 mb-2" />
-                    <p className="text-sm text-gray-300">Communication via Telegram and WhatsApp</p>
+                    <p className="text-sm text-gray-300">{t('communicationVia')}</p>
                   </div>
                   <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
                     <Bot className="w-8 h-8 text-orange-500 mb-2" />
-                    <p className="text-sm text-gray-300">Support for 50+ languages</p>
+                    <p className="text-sm text-gray-300">{t('supportLanguages')}</p>
                   </div>
                   <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
                     <CheckCircle className="w-8 h-8 text-orange-500 mb-2" />
-                    <p className="text-sm text-gray-300">Order automation</p>
+                    <p className="text-sm text-gray-300">{t('orderAutomation')}</p>
                   </div>
                 </div>
               </div>
@@ -158,71 +190,71 @@ function App() {
 
         <section className="bg-gradient-to-b from-black to-gray-900 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-16">What the System Does</h2>
+            <h2 className="text-4xl font-bold text-center mb-16">{t('whatSystemDoes')}</h2>
 
             <div className="grid md:grid-cols-3 gap-8">
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-orange-500">Smart Communications</h3>
+                <h3 className="text-2xl font-bold mb-6 text-orange-500">{t('smartCommunications')}</h3>
                 <ul className="space-y-3 text-gray-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Communication via Telegram and WhatsApp</span>
+                    <span>{t('communicationVia')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Text and voice recognition</span>
+                    <span>{t('textVoiceRecognition')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Support for 50+ languages</span>
+                    <span>{t('supportLanguages')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Food photo analysis</span>
+                    <span>{t('foodPhotoAnalysis')}</span>
                   </li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-orange-500">Order Automation</h3>
+                <h3 className="text-2xl font-bold mb-6 text-orange-500">{t('orderAutomationTitle')}</h3>
                 <ul className="space-y-3 text-gray-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Menu import from Syrve</span>
+                    <span>{t('menuImport')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Help with dish selection</span>
+                    <span>{t('dishSelection')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Delivery address verification</span>
+                    <span>{t('addressVerification')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Order processing</span>
+                    <span>{t('orderProcessing')}</span>
                   </li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-orange-500">Personalization</h3>
+                <h3 className="text-2xl font-bold mb-6 text-orange-500">{t('personalization')}</h3>
                 <ul className="space-y-3 text-gray-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Customer profiles</span>
+                    <span>{t('customerProfiles')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Auto congratulations</span>
+                    <span>{t('autoCongratulations')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Order reminders</span>
+                    <span>{t('orderReminders')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span>Personalized offers</span>
+                    <span>{t('personalizedOffers')}</span>
                   </li>
                 </ul>
               </div>
@@ -230,7 +262,7 @@ function App() {
 
             <div className="mt-12 bg-orange-900/30 border border-orange-500/50 rounded-xl p-6">
               <p className="text-lg text-center">
-                <span className="font-semibold">Works 24/7.</span> Never gets tired, never makes mistakes, never takes days off.
+                {t('works247')}
               </p>
             </div>
           </div>
@@ -238,34 +270,34 @@ function App() {
 
         <section className="py-20 bg-black">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-16">Operator Cost Savings</h2>
+            <h2 className="text-4xl font-bold text-center mb-16">{t('operatorCostSavings')}</h2>
 
             <div className="grid lg:grid-cols-2 gap-12">
               <div className="border border-gray-700 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold mb-6 text-center">Traditional Model</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center">{t('traditionalModel')}</h3>
                 <ul className="space-y-4 text-gray-300 mb-8">
-                  <li>• 5-7 operators for 24/7 operation</li>
-                  <li>• Salaries, taxes, training</li>
-                  <li>• Human factor and errors</li>
-                  <li>• Inability to scale</li>
+                  <li>• {t('operators247')}</li>
+                  <li>• {t('salariesTaxes')}</li>
+                  <li>• {t('humanFactor')}</li>
+                  <li>• {t('inabilityToScale')}</li>
                 </ul>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-orange-500 mb-2">$2,500</div>
-                  <p className="text-gray-400">Costs: $2,500–$7,000/month</p>
+                  <p className="text-gray-400">{t('costs')}</p>
                 </div>
               </div>
 
               <div className="border border-orange-500 rounded-2xl p-8 bg-gradient-to-br from-orange-500/10 to-orange-600/5">
-                <h3 className="text-2xl font-bold mb-6 text-center">With AI Assistant</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center">{t('withAIAssistant')}</h3>
                 <ul className="space-y-4 text-gray-300 mb-8">
-                  <li>• One assistant = entire team</li>
-                  <li>• Works without days off or vacations</li>
-                  <li>• Hundreds of inquiries simultaneously</li>
-                  <li>• Instant scaling</li>
+                  <li>• {t('oneAssistant')}</li>
+                  <li>• {t('noDaysOff')}</li>
+                  <li>• {t('hundredsInquiries')}</li>
+                  <li>• {t('instantScaling')}</li>
                 </ul>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-orange-500 mb-2">$50-$200</div>
-                  <p className="text-gray-400">Costs: $50–$200/month</p>
+                  <p className="text-gray-400">{t('costsAI')}</p>
                 </div>
               </div>
             </div>
@@ -273,18 +305,18 @@ function App() {
             <div className="mt-16 grid md:grid-cols-3 gap-8 text-center">
               <div>
                 <div className="text-5xl font-bold text-orange-500 mb-2">95%</div>
-                <p className="text-xl text-gray-300">Cost Reduction</p>
-                <p className="text-sm text-gray-500 mt-2">on call center staff</p>
+                <p className="text-xl text-gray-300">{t('costReduction')}</p>
+                <p className="text-sm text-gray-500 mt-2">{t('onCallCenter')}</p>
               </div>
               <div>
                 <div className="text-5xl font-bold text-orange-500 mb-2">$2,500</div>
-                <p className="text-xl text-gray-300">Minimum Savings</p>
-                <p className="text-sm text-gray-500 mt-2">when replacing 5 operators</p>
+                <p className="text-xl text-gray-300">{t('minimumSavings')}</p>
+                <p className="text-sm text-gray-500 mt-2">{t('whenReplacing')}</p>
               </div>
               <div>
                 <div className="text-5xl font-bold text-orange-500 mb-2">1-3</div>
-                <p className="text-xl text-gray-300">Months to Payback</p>
-                <p className="text-sm text-gray-500 mt-2">savings start from day one</p>
+                <p className="text-xl text-gray-300">{t('monthsToPayback')}</p>
+                <p className="text-sm text-gray-500 mt-2">{t('savingsFromDayOne')}</p>
               </div>
             </div>
           </div>
@@ -528,7 +560,7 @@ function App() {
           <div className="bg-gray-900 border border-orange-500/50 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-orange-500">
-                {formType === 'demo' ? 'Request Demo' : 'Ask a Question'}
+                {formType === 'demo' ? t('requestDemoTitle') : t('askQuestionTitle')}
               </h2>
               <button
                 onClick={closeForm}
@@ -541,7 +573,7 @@ function App() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                  Name *
+                  {t('name')} *
                 </label>
                 <input
                   type="text"
@@ -551,13 +583,13 @@ function App() {
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg text-white focus:outline-none focus:border-orange-500 transition-colors"
-                  placeholder="Your name"
+                  placeholder={t('name')}
                 />
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                  Email *
+                  {t('email')} *
                 </label>
                 <input
                   type="email"
@@ -573,7 +605,7 @@ function App() {
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  {formType === 'demo' ? 'Tell us about your restaurant' : 'Your question'} *
+                  {formType === 'demo' ? t('tellAboutRestaurant') : t('yourQuestion')} *
                 </label>
                 <textarea
                   id="message"
@@ -583,7 +615,7 @@ function App() {
                   value={formData.message}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg text-white focus:outline-none focus:border-orange-500 transition-colors resize-none"
-                  placeholder={formType === 'demo' ? 'Tell us about your restaurant and we will prepare a personalized demo...' : 'Ask us anything about the AI Operator system...'}
+                  placeholder={formType === 'demo' ? t('tellAboutRestaurant') : t('askAboutSystem')}
                 />
               </div>
 
@@ -593,7 +625,7 @@ function App() {
                   disabled={isSubmitting}
                   className="flex-1 px-6 py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Sending...' : (formType === 'demo' ? 'Request Demo' : 'Send Question')}
+                  {isSubmitting ? t('sending') : (formType === 'demo' ? t('requestDemo') : t('sendQuestion'))}
                 </button>
                 <button
                   type="button"
@@ -601,7 +633,7 @@ function App() {
                   disabled={isSubmitting}
                   className="px-6 py-3 border border-gray-700 text-gray-300 font-semibold rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Cancel
+                  {t('cancel')}
                 </button>
               </div>
             </form>
@@ -618,23 +650,23 @@ function App() {
                 <span className="text-lg font-bold">AI Operator</span>
               </div>
               <p className="text-gray-400 text-sm">
-                AI-powered customer service automation for restaurants. Streamline operations and boost customer satisfaction.
+                {t('footerDescription')}
               </p>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('contactUs')}</h3>
               <div className="space-y-3 text-gray-400 text-sm">
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-orange-500" />
-                  <a href="mailto:info@ioperator.ai" className="hover:text-orange-500 transition-colors">
-                    info@ioperator.ai
+                  <a href={`mailto:${RECIPIENT_EMAIL}`} className="hover:text-orange-500 transition-colors">
+                    {RECIPIENT_EMAIL}
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-orange-500" />
-                  <a href="tel:+1234567890" className="hover:text-orange-500 transition-colors">
-                    +1 (234) 567-890
+                  <a href={`tel:${CONTACT_PHONE.replace(/\s/g, '')}`} className="hover:text-orange-500 transition-colors">
+                    {CONTACT_PHONE}
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
@@ -645,33 +677,33 @@ function App() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('quickLinks')}</h3>
               <div className="space-y-2 text-gray-400 text-sm">
                 <button 
                   onClick={() => openForm('demo')}
                   className="block hover:text-orange-500 transition-colors"
                 >
-                  Request Demo
+                  {t('requestDemo')}
                 </button>
                 <button 
                   onClick={() => openForm('question')}
                   className="block hover:text-orange-500 transition-colors"
                 >
-                  Ask Question
+                  {t('askQuestion')}
                 </button>
                 <a href="#features" className="block hover:text-orange-500 transition-colors">
-                  Features
+                  {t('features')}
                 </a>
                 <a href="#pricing" className="block hover:text-orange-500 transition-colors">
-                  Pricing
+                  {t('pricing')}
                 </a>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} AI Operator. All rights reserved.</p>
-            <p className="mt-2">AI-powered restaurant customer service automation</p>
+            <p>&copy; {new Date().getFullYear()} {t('siteName')}. {t('allRightsReserved')}</p>
+            <p className="mt-2">{t('aiPoweredAutomation')}</p>
           </div>
         </div>
       </footer>
