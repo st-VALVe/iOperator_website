@@ -125,7 +125,7 @@ function App() {
 
       <main>
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
                 {t('heroTitle')}
@@ -167,7 +167,7 @@ function App() {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative lg:pt-12">
               <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/10 rounded-2xl p-8 border border-orange-500/30">
                 <div className="space-y-4">
                   <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
