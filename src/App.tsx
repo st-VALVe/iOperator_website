@@ -11,9 +11,9 @@ function App() {
     message: ''
   });
 
-  // FormSubmit configuration - free service, no registration needed
-  // First email requires confirmation, then it works automatically
-  const FORM_SUBMIT_URL = 'https://formsubmit.co/ajax/st-valve@mail.ru';
+  // Direct email configuration
+  // Using mailto: link as primary method - always works, no external services needed
+  const RECIPIENT_EMAIL = 'st-valve@mail.ru';
 
   const openForm = (type: 'demo' | 'question') => {
     setFormType(type);
@@ -25,60 +25,38 @@ function App() {
     setFormData({ name: '', email: '', message: '' });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      // Create a hidden form and submit it to FormSubmit
-      // This approach is more reliable than AJAX for FormSubmit
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://formsubmit.co/st-valve@mail.ru';
-      form.target = '_blank'; // Open in new tab to avoid page reload
-      form.style.display = 'none';
+    // Prepare email content
+    const subject = encodeURIComponent(
+      formType === 'demo' 
+        ? 'Demo Request from AI Operator Website' 
+        : 'Question from AI Operator Website'
+    );
 
-      // Add form fields
-      const fields = {
-        name: formData.name,
-        email: formData.email,
-        _subject: formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website',
-        message: `Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\nFrom: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`,
-        _replyto: formData.email,
-        _captcha: 'false',
-        _template: 'box',
-        _next: window.location.href
-      };
+    const body = encodeURIComponent(
+      `Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\n` +
+      `From: ${formData.name}\n` +
+      `Email: ${formData.email}\n\n` +
+      `Message:\n${formData.message}\n\n` +
+      `---\n` +
+      `This message was sent from the contact form on iOperator.ai`
+    );
 
-      Object.entries(fields).forEach(([key, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
-      });
+    // Create mailto link
+    const mailtoLink = `mailto:${RECIPIENT_EMAIL}?subject=${subject}&body=${body}`;
 
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
+    // Open email client
+    window.location.href = mailtoLink;
 
-      // Show success message
-      alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
+    // Show success message
+    setTimeout(() => {
+      alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}!\n\nYour email client should open automatically. Please send the email to complete your request.\n\nWe will contact you soon at ${formData.email}.`);
       closeForm();
-    } catch (error) {
-      console.error('Email sending failed:', error);
-      // Fallback: use mailto link as backup
-      const mailtoSubject = encodeURIComponent(formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website');
-      const mailtoBody = encodeURIComponent(`Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\nFrom: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`);
-      const mailtoLink = `mailto:st-valve@mail.ru?subject=${mailtoSubject}&body=${mailtoBody}`;
-      
-      const useMailto = confirm('Sorry, there was an error sending your message automatically. Would you like to open your email client to send it manually?');
-      if (useMailto) {
-        window.location.href = mailtoLink;
-      }
-    } finally {
       setIsSubmitting(false);
-    }
+    }, 500);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
