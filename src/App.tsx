@@ -30,40 +30,41 @@ function App() {
     setIsSubmitting(true);
 
     try {
-      // Prepare form data for FormSubmit
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('subject', formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website');
-      formDataToSend.append('message', `Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\nFrom: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`);
-      formDataToSend.append('_replyto', formData.email);
-      formDataToSend.append('_captcha', 'false');
-      formDataToSend.append('_template', 'box');
-      formDataToSend.append('_next', window.location.href);
+      // Create a hidden form and submit it to FormSubmit
+      // This approach is more reliable than AJAX for FormSubmit
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://formsubmit.co/st-valve@mail.ru';
+      form.target = '_blank'; // Open in new tab to avoid page reload
+      form.style.display = 'none';
 
-      // Send email via FormSubmit
-      const response = await fetch(FORM_SUBMIT_URL, {
-        method: 'POST',
-        body: formDataToSend,
-        headers: {
-          'Accept': 'application/json'
-        }
+      // Add form fields
+      const fields = {
+        name: formData.name,
+        email: formData.email,
+        _subject: formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website',
+        message: `Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\nFrom: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`,
+        _replyto: formData.email,
+        _captcha: 'false',
+        _template: 'box',
+        _next: window.location.href
+      };
+
+      Object.entries(fields).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
       });
 
-      // FormSubmit returns JSON for AJAX requests
-      const result = await response.json();
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
 
-      if (response.ok && result.success) {
-        alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
-        closeForm();
-      } else {
-        // If first time, FormSubmit requires email confirmation
-        if (result.message && result.message.includes('confirm')) {
-          alert('Please check your email (st-valve@mail.ru) and confirm the form submission. After confirmation, the form will work automatically.');
-        } else {
-          throw new Error(result.message || 'Failed to send email');
-        }
-      }
+      // Show success message
+      alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
+      closeForm();
     } catch (error) {
       console.error('Email sending failed:', error);
       // Fallback: use mailto link as backup
