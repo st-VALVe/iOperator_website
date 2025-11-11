@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import { MessageSquare, Zap, DollarSign, Star, Bot, TrendingUp, Clock, Users, BarChart3, CheckCircle, X, Mail, Phone, MapPin } from 'lucide-react';
 
 function App() {
@@ -12,19 +11,9 @@ function App() {
     message: ''
   });
 
-  // EmailJS configuration
-  // To set up EmailJS:
-  // 1. Go to https://www.emailjs.com/ and create a free account
-  // 2. Create an email service (Gmail, Outlook, etc.)
-  // 3. Create an email template
-  // 4. Get your Public Key, Service ID, and Template ID
-  // 5. Replace the values below
-  const EMAILJS_CONFIG = {
-    PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // Replace with your EmailJS Public Key
-    SERVICE_ID: 'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
-    TEMPLATE_ID: 'YOUR_TEMPLATE_ID', // Replace with your EmailJS Template ID
-    TO_EMAIL: 'st-valve@mail.ru' // Recipient email
-  };
+  // FormSubmit configuration - no registration needed!
+  // FormSubmit is a free service that sends form submissions directly to your email
+  const FORM_SUBMIT_URL = 'https://formsubmit.co/ajax/st-valve@mail.ru';
 
   const openForm = (type: 'demo' | 'question') => {
     setFormType(type);
@@ -41,32 +30,31 @@ function App() {
     setIsSubmitting(true);
 
     try {
-      // Initialize EmailJS with public key
-      emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+      // Prepare form data for FormSubmit
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('subject', formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website');
+      formDataToSend.append('message', `Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\nFrom: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`);
+      formDataToSend.append('_replyto', formData.email);
+      formDataToSend.append('_captcha', 'false');
+      formDataToSend.append('_template', 'box');
 
-      // Prepare template parameters
-      const templateParams = {
-        to_email: EMAILJS_CONFIG.TO_EMAIL,
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website',
-        message: formData.message,
-        request_type: formType === 'demo' ? 'Demo Request' : 'Question',
-        reply_to: formData.email
-      };
+      // Send email via FormSubmit (no registration needed!)
+      const response = await fetch(FORM_SUBMIT_URL, {
+        method: 'POST',
+        body: formDataToSend
+      });
 
-      // Send email
-      await emailjs.send(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        templateParams
-      );
-
-      alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
-      closeForm();
+      if (response.ok) {
+        alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
+        closeForm();
+      } else {
+        throw new Error('Failed to send email');
+      }
     } catch (error) {
       console.error('Email sending failed:', error);
-      alert('Sorry, there was an error sending your message. Please try again or contact us directly at info@ioperator.ai');
+      alert('Sorry, there was an error sending your message. Please try again or contact us directly at st-valve@mail.ru');
     } finally {
       setIsSubmitting(false);
     }
