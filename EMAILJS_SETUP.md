@@ -1,6 +1,30 @@
-# EmailJS Setup Instructions
+# Email Form Setup - COMPLETE! ✅
 
-## Quick Setup Guide
+## Good News: No Setup Required!
+
+The contact form is already configured to send emails to **st-valve@mail.ru** using FormSubmit service. 
+
+**FormSubmit** is a free service that requires **NO registration** - it just works!
+
+## How It Works
+
+- When someone fills out the contact form and clicks "Request Demo" or "Ask Question"
+- The form data is sent to FormSubmit service
+- FormSubmit automatically forwards the email to **st-valve@mail.ru**
+- You receive the email with all the form details
+
+## That's It!
+
+The form is ready to use right now. No additional configuration needed.
+
+---
+
+## Old EmailJS Instructions (Not Needed Anymore)
+
+<details>
+<summary>Click to see old EmailJS setup (not required)</summary>
+
+### Quick Setup Guide
 
 To enable email sending from the contact form, you need to configure EmailJS (free service).
 
@@ -86,4 +110,6 @@ For more emails, consider upgrading to a paid plan.
 ## Security Note
 
 The Public Key is safe to expose in frontend code. EmailJS uses it to identify your account, but it doesn't grant full access.
+
+</details>
 
