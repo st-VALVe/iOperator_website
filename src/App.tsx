@@ -11,8 +11,8 @@ function App() {
     message: ''
   });
 
-  // FormSubmit configuration - no registration needed!
-  // FormSubmit is a free service that sends form submissions directly to your email
+  // FormSubmit configuration - free service, no registration needed
+  // First email requires confirmation, then it works automatically
   const FORM_SUBMIT_URL = 'https://formsubmit.co/ajax/st-valve@mail.ru';
 
   const openForm = (type: 'demo' | 'question') => {
@@ -39,22 +39,42 @@ function App() {
       formDataToSend.append('_replyto', formData.email);
       formDataToSend.append('_captcha', 'false');
       formDataToSend.append('_template', 'box');
+      formDataToSend.append('_next', window.location.href);
 
-      // Send email via FormSubmit (no registration needed!)
+      // Send email via FormSubmit
       const response = await fetch(FORM_SUBMIT_URL, {
         method: 'POST',
-        body: formDataToSend
+        body: formDataToSend,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
 
-      if (response.ok) {
+      // FormSubmit returns JSON for AJAX requests
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         alert(`Thank you for your ${formType === 'demo' ? 'demo request' : 'question'}! We will contact you soon at ${formData.email}.`);
         closeForm();
       } else {
-        throw new Error('Failed to send email');
+        // If first time, FormSubmit requires email confirmation
+        if (result.message && result.message.includes('confirm')) {
+          alert('Please check your email (st-valve@mail.ru) and confirm the form submission. After confirmation, the form will work automatically.');
+        } else {
+          throw new Error(result.message || 'Failed to send email');
+        }
       }
     } catch (error) {
       console.error('Email sending failed:', error);
-      alert('Sorry, there was an error sending your message. Please try again or contact us directly at st-valve@mail.ru');
+      // Fallback: use mailto link as backup
+      const mailtoSubject = encodeURIComponent(formType === 'demo' ? 'Demo Request from AI Operator Website' : 'Question from AI Operator Website');
+      const mailtoBody = encodeURIComponent(`Request Type: ${formType === 'demo' ? 'Demo Request' : 'Question'}\n\nFrom: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`);
+      const mailtoLink = `mailto:st-valve@mail.ru?subject=${mailtoSubject}&body=${mailtoBody}`;
+      
+      const useMailto = confirm('Sorry, there was an error sending your message automatically. Would you like to open your email client to send it manually?');
+      if (useMailto) {
+        window.location.href = mailtoLink;
+      }
     } finally {
       setIsSubmitting(false);
     }
