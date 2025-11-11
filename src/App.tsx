@@ -16,7 +16,7 @@ function App() {
   // Direct email configuration
   // Using mailto: link as primary method - always works, no external services needed
   const RECIPIENT_EMAIL = 'antguseinov@gmail.com';
-  const CONTACT_PHONE = '+90 553 878 0888';
+  const CONTACT_PHONE = '+905302641313';
   
   const t = (key: keyof typeof translations.en) => getTranslation(language, key);
 
