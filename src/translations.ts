@@ -136,7 +136,8 @@ export const translations = {
     features: 'Features',
     pricing: 'Pricing',
     allRightsReserved: 'All rights reserved.',
-    aiPoweredAutomation: 'AI-powered restaurant customer service automation'
+    aiPoweredAutomation: 'AI-powered restaurant customer service automation',
+    globalService: 'Global Service'
   },
   ru: {
     siteName: 'AI Оператор',
@@ -254,7 +255,8 @@ export const translations = {
     features: 'Возможности',
     pricing: 'Цены',
     allRightsReserved: 'Все права защищены.',
-    aiPoweredAutomation: 'ИИ-автоматизация обслуживания клиентов в ресторанах'
+    aiPoweredAutomation: 'ИИ-автоматизация обслуживания клиентов в ресторанах',
+    globalService: 'Глобальный сервис'
   },
   tr: {
     siteName: 'AI Operatör',
@@ -372,7 +374,8 @@ export const translations = {
     features: 'Özellikler',
     pricing: 'Fiyatlandırma',
     allRightsReserved: 'Tüm hakları saklıdır.',
-    aiPoweredAutomation: 'Restoran müşteri hizmetleri AI otomasyonu'
+    aiPoweredAutomation: 'Restoran müşteri hizmetleri AI otomasyonu',
+    globalService: 'Küresel Hizmet'
   }
 };
 
