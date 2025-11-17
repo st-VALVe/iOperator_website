@@ -125,7 +125,7 @@ function App() {
 
       <main>
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
                 {t('heroTitle')}
@@ -134,56 +134,33 @@ function App() {
                 {t('heroSubtitle')}
               </p>
 
-              <div className="space-y-6">
-                <div className="border border-orange-500 rounded-xl p-6">
-                  <div className="flex items-start gap-4">
-                    <Zap className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">{t('acceleratesService')}</h3>
-                      <p className="text-gray-300">{t('instantResponses')}</p>
-                    </div>
-                  </div>
+              <div className="grid md:grid-cols-3 gap-4 mb-4">
+                <div className="border border-orange-500 rounded-xl p-4">
+                  <div className="text-2xl mb-2">⚡</div>
+                  <h3 className="text-base font-semibold mb-1">{t('acceleratesService')}</h3>
+                  <p className="text-sm text-gray-300">{t('instantResponses')}</p>
                 </div>
 
-                <div className="border border-orange-500 rounded-xl p-6">
-                  <div className="flex items-start gap-4">
-                    <DollarSign className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">{t('reducesCosts')}</h3>
-                      <p className="text-gray-300">{t('saveUpTo')}</p>
-                    </div>
-                  </div>
+                <div className="border border-orange-500 rounded-xl p-4">
+                  <div className="text-2xl mb-2">💰</div>
+                  <h3 className="text-base font-semibold mb-1">{t('reducesCosts')}</h3>
+                  <p className="text-sm text-gray-300">{t('saveUpTo')}</p>
                 </div>
 
-                <div className="border border-orange-500 rounded-xl p-6">
-                  <div className="flex items-start gap-4">
-                    <Star className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">{t('improvesQuality')}</h3>
-                      <p className="text-gray-300">{t('errorFreeService')}</p>
-                    </div>
-                  </div>
+                <div className="border border-orange-500 rounded-xl p-4 md:col-span-3 lg:col-span-1">
+                  <div className="text-2xl mb-2">⭐</div>
+                  <h3 className="text-base font-semibold mb-1">{t('improvesQuality')}</h3>
+                  <p className="text-sm text-gray-300">{t('errorFreeService')}</p>
                 </div>
               </div>
             </div>
 
             <div className="relative lg:pt-12">
-              <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/10 rounded-2xl p-8 border border-orange-500/30">
-                <div className="space-y-4">
-                  <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
-                    <MessageSquare className="w-8 h-8 text-orange-500 mb-2" />
-                    <p className="text-sm text-gray-300">{t('communicationVia')}</p>
-                  </div>
-                  <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
-                    <Bot className="w-8 h-8 text-orange-500 mb-2" />
-                    <p className="text-sm text-gray-300">{t('supportLanguages')}</p>
-                  </div>
-                  <div className="bg-black/50 rounded-lg p-4 border border-gray-700">
-                    <CheckCircle className="w-8 h-8 text-orange-500 mb-2" />
-                    <p className="text-sm text-gray-300">{t('orderAutomation')}</p>
-                  </div>
-                </div>
-              </div>
+              <img 
+                src="/images/hero-restaurant.png" 
+                alt="Modern restaurant interior" 
+                className="w-full h-auto rounded-2xl"
+              />
             </div>
           </div>
         </section>
@@ -264,6 +241,54 @@ function App() {
               <p className="text-lg text-center">
                 {t('works247')}
               </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 bg-black">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-center mb-16">{t('communicationScenario')}</h2>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="border border-orange-500 rounded-xl p-6">
+                <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-lg mb-4">01</div>
+                <h3 className="text-lg font-semibold mb-2">{t('step1Title')}</h3>
+                <p className="text-gray-300 text-sm">{t('step1Desc')}</p>
+              </div>
+
+              <div className="border border-orange-500 rounded-xl p-6">
+                <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-lg mb-4">02</div>
+                <h3 className="text-lg font-semibold mb-2">{t('step2Title')}</h3>
+                <p className="text-gray-300 text-sm">{t('step2Desc')}</p>
+              </div>
+
+              <div className="border border-orange-500 rounded-xl p-6">
+                <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-lg mb-4">03</div>
+                <h3 className="text-lg font-semibold mb-2">{t('step3Title')}</h3>
+                <p className="text-gray-300 text-sm">{t('step3Desc')}</p>
+              </div>
+
+              <div className="border border-orange-500 rounded-xl p-6">
+                <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-lg mb-4">04</div>
+                <h3 className="text-lg font-semibold mb-2">{t('step4Title')}</h3>
+                <p className="text-gray-300 text-sm">{t('step4Desc')}</p>
+              </div>
+
+              <div className="border border-orange-500 rounded-xl p-6">
+                <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-lg mb-4">05</div>
+                <h3 className="text-lg font-semibold mb-2">{t('step5Title')}</h3>
+                <p className="text-gray-300 text-sm">{t('step5Desc')}</p>
+              </div>
+
+              <div className="border border-orange-500 rounded-xl p-6">
+                <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-lg mb-4">06</div>
+                <h3 className="text-lg font-semibold mb-2">{t('step6Title')}</h3>
+                <p className="text-gray-300 text-sm">{t('step6Desc')}</p>
+              </div>
+            </div>
+
+            <div className="bg-orange-900/20 border border-orange-500/50 rounded-xl p-6 text-center">
+              <p className="text-lg text-gray-300">{t('allInOneWindow')}</p>
             </div>
           </div>
         </section>
@@ -385,11 +410,11 @@ function App() {
             <div className="grid md:grid-cols-2 gap-12 text-center">
               <div>
                 <div className="mb-6">
-                  <svg className="w-48 h-48 mx-auto" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#1f2937" strokeWidth="8" />
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#f97316" strokeWidth="8"
-                            strokeDasharray="75 251" strokeLinecap="round" transform="rotate(-90 50 50)" />
-                  </svg>
+                  <img 
+                    src="/images/growth-chart-25-40.png" 
+                    alt="25-40% growth chart" 
+                    className="w-48 h-48 mx-auto object-contain"
+                  />
                 </div>
                 <div className="text-4xl font-bold text-orange-500 mb-2">25-40%</div>
                 <p className="text-xl text-gray-300">{t('repeatOrderGrowthPercent')}</p>
@@ -398,15 +423,75 @@ function App() {
 
               <div>
                 <div className="mb-6">
-                  <svg className="w-48 h-48 mx-auto" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#1f2937" strokeWidth="8" />
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#f97316" strokeWidth="8"
-                            strokeDasharray="88 251" strokeLinecap="round" transform="rotate(-90 50 50)" />
-                  </svg>
+                  <img 
+                    src="/images/growth-chart-35.png" 
+                    alt="35% growth chart" 
+                    className="w-48 h-48 mx-auto object-contain"
+                  />
                 </div>
                 <div className="text-4xl font-bold text-orange-500 mb-2">35%</div>
                 <p className="text-xl text-gray-300">{t('averageCheckIncrease')}</p>
                 <p className="text-sm text-gray-500 mt-2">{t('throughSmartRecommendations')}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 bg-gradient-to-b from-black to-gray-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-center mb-16">{t('serviceImprovement')}</h2>
+
+            <div className="grid lg:grid-cols-2 gap-12 mb-12">
+              <div>
+                <h3 className="text-2xl font-bold mb-8 text-orange-500">{t('clientBenefits')}</h3>
+                <div className="space-y-4">
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">⚡</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('instantAnswers')}</h4>
+                    <p className="text-gray-300 text-sm">{t('instantAnswersDesc')}</p>
+                  </div>
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">💬</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('convenientFormat')}</h4>
+                    <p className="text-gray-300 text-sm">{t('convenientFormatDesc')}</p>
+                  </div>
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">🎤</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('voiceCommands')}</h4>
+                    <p className="text-gray-300 text-sm">{t('voiceCommandsDesc')}</p>
+                  </div>
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">🌍</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('anyLanguage')}</h4>
+                    <p className="text-gray-300 text-sm">{t('anyLanguageDesc')}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold mb-8 text-orange-500">{t('ownerBenefits')}</h3>
+                <div className="space-y-4">
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">✓</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('zeroErrors')}</h4>
+                    <p className="text-gray-300 text-sm">{t('zeroErrorsDesc')}</p>
+                  </div>
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">📊</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('structuredData')}</h4>
+                    <p className="text-gray-300 text-sm">{t('structuredDataDesc')}</p>
+                  </div>
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">📈</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('realTimeAnalytics')}</h4>
+                    <p className="text-gray-300 text-sm">{t('realTimeAnalyticsDesc')}</p>
+                  </div>
+                  <div className="border border-orange-500 rounded-xl p-4">
+                    <div className="text-xl mb-2">🎯</div>
+                    <h4 className="text-lg font-semibold mb-1">{t('preciseMarketing')}</h4>
+                    <p className="text-gray-300 text-sm">{t('preciseMarketingDesc')}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
