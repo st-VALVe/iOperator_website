@@ -4,6 +4,7 @@ export const translations = {
   en: {
     // Header
     siteName: 'ioperator.ai',
+    integrationsTitle: 'Seamless Integrations',
     requestDemo: 'Request Demo',
     askQuestion: 'Ask Question',
     
@@ -178,6 +179,7 @@ export const translations = {
   },
   ru: {
     siteName: 'ioperator.ai',
+    integrationsTitle: 'Бесшовные интеграции',
     requestDemo: 'Запросить демо',
     askQuestion: 'Задать вопрос',
     heroTitle: 'ИИ-оператор для ресторанов',
@@ -335,6 +337,7 @@ export const translations = {
   },
   tr: {
     siteName: 'ioperator.ai',
+    integrationsTitle: 'Sorunsuz Entegrasyonlar',
     requestDemo: 'Demo İste',
     askQuestion: 'Soru Sor',
     heroTitle: 'Restoranlar için AI Operatör',

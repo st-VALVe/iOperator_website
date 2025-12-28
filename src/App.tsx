@@ -1,7 +1,17 @@
 import { useState, useEffect } from 'react';
 import { translations, getTranslation, type Language } from './translations';
-import { Header } from './components/sections/Header';
-import { Hero } from './components/sections/Hero';
+import {
+  Header,
+  Hero,
+  Integrations,
+  Features,
+  HowItWorks,
+  Pricing,
+  FAQ,
+  Testimonials,
+  CTA,
+  Footer,
+} from './components/sections';
 
 function App() {
   const [language, setLanguage] = useState<Language>('en');
@@ -27,6 +37,11 @@ function App() {
     setIsFormOpen(true);
   };
 
+  const handleSelectPlan = (plan: string) => {
+    console.log('Selected plan:', plan);
+    openForm('demo');
+  };
+
   return (
     <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-300">
       <Header
@@ -38,35 +53,31 @@ function App() {
       />
 
       <main>
-        <Hero
-          t={t}
-          onRequestDemo={() => openForm('demo')}
-        />
-
-        {/* Placeholder for other sections - will be added in next tasks */}
-        <section className="section-container py-20">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">More sections coming soon...</h2>
-            <p className="text-light-text-secondary dark:text-dark-text-secondary">
-              Features, Pricing, FAQ, Testimonials, and more will be added here.
-            </p>
-          </div>
-        </section>
+        <Hero t={t} onRequestDemo={() => openForm('demo')} />
+        <Integrations t={t} />
+        <Features t={t} />
+        <HowItWorks t={t} />
+        <Pricing t={t} onSelectPlan={handleSelectPlan} />
+        <Testimonials t={t} />
+        <FAQ t={t} />
+        <CTA t={t} onRequestDemo={() => openForm('demo')} />
       </main>
 
-      {/* Contact Form Modal - simplified for now */}
+      <Footer t={t} />
+
+      {/* Contact Form Modal */}
       {isFormOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white dark:bg-dark-bg-secondary rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
-            <h3 className="text-2xl font-bold mb-4">
+            <h3 className="text-2xl font-bold mb-4 text-light-text dark:text-dark-text">
               {formType === 'demo' ? t('requestDemoTitle') : t('askQuestionTitle')}
             </h3>
             <p className="text-light-text-secondary dark:text-dark-text-secondary mb-6">
-              Contact form will be implemented in a later phase.
+              Contact form will be implemented in Phase 2.
             </p>
             <button
               onClick={() => setIsFormOpen(false)}
-              className="w-full btn-primary"
+              className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold hover:opacity-90 transition-opacity"
             >
               Close
             </button>
