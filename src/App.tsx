@@ -12,6 +12,7 @@ import {
   CTA,
   Footer,
 } from './components/sections';
+import { ChatWidget } from './components/chat';
 
 function App() {
   const [language, setLanguage] = useState<Language>('en');
@@ -64,6 +65,9 @@ function App() {
       </main>
 
       <Footer t={t} />
+
+      {/* AI Demo Chat Widget */}
+      <ChatWidget t={t} />
 
       {/* Contact Form Modal */}
       {isFormOpen && (

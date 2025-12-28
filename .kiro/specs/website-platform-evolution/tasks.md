@@ -112,21 +112,21 @@
     - Мобильное меню
     - _Requirements: 1.6, 1.7, 9.2_
 
-- [ ] 11. Checkpoint - Визуальный редизайн
-  - Сравнить с референсом Alter
-  - Проверить все анимации (60fps)
-  - Протестировать на мобильных устройствах
-  - Проверить responsive дизайн
+- [x] 11. Checkpoint - Визуальный редизайн
+  - Сравнить с референсом Alter ✓
+  - Проверить все анимации (60fps) ✓
+  - Протестировать на мобильных устройствах ✓
+  - Проверить responsive дизайн ✓
 
 ### Фаза 2: AI Demo Widget
 
-- [ ] 12. Создать Telegram Proxy сервис
-  - [ ] 5.1 Настроить Node.js проект для Telegram Proxy
+- [x] 12. Создать Telegram Proxy сервис
+  - [x] 5.1 Настроить Node.js проект для Telegram Proxy
     - Создать `telegram-proxy/` директорию
     - Настроить Express + WebSocket сервер
     - Добавить Telegram Bot API интеграцию
     - _Requirements: 3.2, 3.3, 14.2_
-  - [ ] 5.2 Реализовать API endpoints
+  - [x] 5.2 Реализовать API endpoints
     - POST `/api/session` - создание сессии
     - POST `/api/message` - отправка текстового сообщения
     - POST `/api/image` - отправка изображения
@@ -136,13 +136,13 @@
     - **Property 1: Message Round-Trip**
     - **Validates: Requirements 3.2, 3.3, 3.6, 4.5, 4.6**
 
-- [ ] 6. Создать Chat Interface компонент
-  - [ ] 6.1 Создать базовый Chat UI
+- [x] 6. Создать Chat Interface компонент
+  - [x] 6.1 Создать базовый Chat UI
     - Создать `src/components/chat/ChatWidget.tsx`
     - Создать `src/components/chat/MessageBubble.tsx`
     - Создать `src/components/chat/TypingIndicator.tsx`
     - _Requirements: 3.1, 3.4, 3.5_
-  - [ ] 6.2 Интегрировать с Telegram Proxy
+  - [x] 6.2 Интегрировать с Telegram Proxy
     - Создать `src/services/telegramProxy.ts`
     - Реализовать WebSocket подключение
     - Обработать отправку/получение сообщений
@@ -151,13 +151,13 @@
     - **Property 2: Session Consistency**
     - **Validates: Requirements 3.4, 3.9**
 
-- [ ] 7. Создать Voice Interface компонент
-  - [ ] 7.1 Реализовать запись аудио
+- [x] 7. Создать Voice Interface компонент
+  - [x] 7.1 Реализовать запись аудио
     - Создать `src/components/chat/VoiceRecorder.tsx`
     - Использовать MediaRecorder API
     - Конвертировать в OGG/Opus формат
     - _Requirements: 4.1, 4.2, 4.3_
-  - [ ] 7.2 Добавить визуальную обратную связь
+  - [x] 7.2 Добавить визуальную обратную связь
     - Создать waveform визуализацию
     - Добавить индикатор записи
     - _Requirements: 4.2, 4.8_
