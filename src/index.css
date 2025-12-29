@@ -1,3 +1,118 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Light theme (default) */
+  :root {
+    --color-bg: 255 255 255;
+    --color-bg-secondary: 248 250 252;
+    --color-bg-tertiary: 241 245 249;
+    --color-text: 15 23 42;
+    --color-text-secondary: 71 85 105;
+    --color-text-muted: 148 163 184;
+    --color-border: 226 232 240;
+  }
+
+  /* Dark theme */
+  .dark {
+    --color-bg: 10 10 10;
+    --color-bg-secondary: 23 23 23;
+    --color-bg-tertiary: 38 38 38;
+    --color-text: 250 250 250;
+    --color-text-secondary: 163 163 163;
+    --color-text-muted: 115 115 115;
+    --color-border: 64 64 64;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    @apply bg-light-bg text-light-text;
+    @apply dark:bg-dark-bg dark:text-dark-text;
+    @apply transition-colors duration-300;
+  }
+}
+
+@layer components {
+  /* Glass card effect */
+  .glass-card {
+    @apply bg-white/80 dark:bg-dark-bg-secondary/80;
+    @apply backdrop-blur-lg;
+    @apply border border-light-border dark:border-dark-border;
+    @apply rounded-2xl;
+    @apply shadow-lg shadow-black/5 dark:shadow-black/20;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600;
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply px-6 py-3;
+    @apply bg-primary-500 hover:bg-primary-600;
+    @apply text-white font-semibold;
+    @apply rounded-xl;
+    @apply transition-all duration-200;
+    @apply hover:shadow-lg hover:shadow-primary-500/25;
+    @apply active:scale-[0.98];
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply px-6 py-3;
+    @apply bg-light-bg-tertiary dark:bg-dark-bg-tertiary;
+    @apply text-light-text dark:text-dark-text;
+    @apply font-semibold;
+    @apply rounded-xl;
+    @apply border border-light-border dark:border-dark-border;
+    @apply transition-all duration-200;
+    @apply hover:border-primary-500;
+    @apply active:scale-[0.98];
+  }
+
+  /* Outline button */
+  .btn-outline {
+    @apply px-6 py-3;
+    @apply bg-transparent;
+    @apply text-primary-500;
+    @apply font-semibold;
+    @apply rounded-xl;
+    @apply border-2 border-primary-500;
+    @apply transition-all duration-200;
+    @apply hover:bg-primary-500 hover:text-white;
+    @apply active:scale-[0.98];
+  }
+
+  /* Section container */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300;
+    @apply hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-black/30;
+    @apply hover:-translate-y-1;
+  }
+}
+
+@layer utilities {
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

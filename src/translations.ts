@@ -3,7 +3,8 @@ export type Language = 'en' | 'ru' | 'tr';
 export const translations = {
   en: {
     // Header
-    siteName: 'AI Operator',
+    siteName: 'ioperator.ai',
+    integrationsTitle: 'Seamless Integrations',
     requestDemo: 'Request Demo',
     askQuestion: 'Ask Question',
     
@@ -177,7 +178,8 @@ export const translations = {
     globalService: 'Global Service'
   },
   ru: {
-    siteName: 'AI Оператор',
+    siteName: 'ioperator.ai',
+    integrationsTitle: 'Бесшовные интеграции',
     requestDemo: 'Запросить демо',
     askQuestion: 'Задать вопрос',
     heroTitle: 'ИИ-оператор для ресторанов',
@@ -334,7 +336,8 @@ export const translations = {
     globalService: 'Глобальный сервис'
   },
   tr: {
-    siteName: 'AI Operatör',
+    siteName: 'ioperator.ai',
+    integrationsTitle: 'Sorunsuz Entegrasyonlar',
     requestDemo: 'Demo İste',
     askQuestion: 'Soru Sor',
     heroTitle: 'Restoranlar için AI Operatör',
@@ -493,6 +496,7 @@ export const translations = {
 };
 
 export const getTranslation = (lang: Language, key: keyof typeof translations.en): string => {
-  return translations[lang][key] || translations.en[key];
+  const langTranslations = translations[lang] as typeof translations.en;
+  return langTranslations[key] || translations.en[key];
 };
 
