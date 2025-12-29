@@ -165,12 +165,12 @@
     - **Property 3: Audio Format Compliance**
     - **Validates: Requirements 4.3**
 
-- [ ] 8. Обработка ошибок и accessibility
-  - [ ] 8.1 Добавить обработку ошибок в Chat Widget
+- [x] 8. Обработка ошибок и accessibility
+  - [x] 8.1 Добавить обработку ошибок в Chat Widget
     - Показывать friendly error messages
     - Добавить retry функционал
     - _Requirements: 3.7, 4.7_
-  - [ ] 8.2 Обеспечить keyboard accessibility
+  - [x] 8.2 Обеспечить keyboard accessibility
     - Добавить keyboard navigation
     - Добавить ARIA атрибуты
     - _Requirements: 3.8, 9.3_

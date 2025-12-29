@@ -16,13 +16,20 @@ export interface Session {
 class TelegramProxyService {
   private ws: WebSocket | null = null;
   private sessionId: string | null = null;
+  private wsUrl: string | null = null;
   private messageCallbacks: ((message: Message) => void)[] = [];
   private typingCallbacks: ((isTyping: boolean) => void)[] = [];
   private connectionCallbacks: ((connected: boolean) => void)[] = [];
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
+  private isConnecting = false;
 
   async createSession(): Promise<Session> {
+    // Reuse existing session if available
+    if (this.sessionId && this.wsUrl) {
+      return { sessionId: this.sessionId, wsUrl: this.wsUrl };
+    }
+
     const response = await fetch(`${API_BASE}/api/session`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -35,14 +42,26 @@ class TelegramProxyService {
 
     const session: Session = await response.json();
     this.sessionId = session.sessionId;
+    this.wsUrl = session.wsUrl;
     
     return session;
   }
 
+  isConnected(): boolean {
+    return this.ws?.readyState === WebSocket.OPEN;
+  }
+
   connectWebSocket(wsUrl: string): void {
+    // Don't reconnect if already connected or connecting
+    if (this.isConnecting || this.isConnected()) {
+      return;
+    }
+
     if (this.ws) {
       this.ws.close();
     }
+
+    this.isConnecting = true;
 
     // Convert ws URL to use current host in development
     const url = wsUrl.replace('ws://localhost:3001', API_BASE.replace('http', 'ws'));
@@ -51,6 +70,7 @@ class TelegramProxyService {
 
     this.ws.onopen = () => {
       console.log('WebSocket connected');
+      this.isConnecting = false;
       this.reconnectAttempts = 0;
       this.connectionCallbacks.forEach(cb => cb(true));
     };
@@ -66,12 +86,17 @@ class TelegramProxyService {
 
     this.ws.onclose = () => {
       console.log('WebSocket disconnected');
+      this.isConnecting = false;
       this.connectionCallbacks.forEach(cb => cb(false));
-      this.attemptReconnect(wsUrl);
+      // Only reconnect if we have a valid session
+      if (this.sessionId && this.wsUrl) {
+        this.attemptReconnect(this.wsUrl);
+      }
     };
 
     this.ws.onerror = (error) => {
       console.error('WebSocket error:', error);
+      this.isConnecting = false;
     };
   }
 
@@ -213,14 +238,18 @@ class TelegramProxyService {
   }
 
   disconnect(): void {
+    this.reconnectAttempts = this.maxReconnectAttempts; // Prevent reconnect
     if (this.ws) {
       this.ws.close();
       this.ws = null;
     }
     this.sessionId = null;
+    this.wsUrl = null;
+    this.isConnecting = false;
     this.messageCallbacks = [];
     this.typingCallbacks = [];
     this.connectionCallbacks = [];
+    this.reconnectAttempts = 0;
   }
 
   getSessionId(): string | null {

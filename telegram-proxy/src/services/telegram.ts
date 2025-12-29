@@ -1,80 +1,15 @@
-import TelegramBot from 'node-telegram-bot-api';
-import { SessionManager } from './sessionManager';
+import { SessionManager } from './sessionManager.js';
+import { OpenAIService } from './openai.js';
 
 export class TelegramService {
-  private bot: TelegramBot | null = null;
   private sessionManager: SessionManager;
+  private openaiService: OpenAIService;
   private messageCallbacks: Map<string, (message: string, metadata?: Record<string, unknown>) => void> = new Map();
 
   constructor(sessionManager: SessionManager) {
     this.sessionManager = sessionManager;
-    this.initBot();
-  }
-
-  private initBot(): void {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
-    
-    if (!token) {
-      console.warn('⚠️ TELEGRAM_BOT_TOKEN not set. Bot functionality disabled.');
-      return;
-    }
-
-    try {
-      this.bot = new TelegramBot(token, { polling: true });
-      
-      this.bot.on('message', (msg) => this.handleIncomingMessage(msg));
-      this.bot.on('polling_error', (error) => {
-        console.error('Telegram polling error:', error.message);
-      });
-
-      console.log('🤖 Telegram bot initialized');
-    } catch (error) {
-      console.error('Failed to initialize Telegram bot:', error);
-    }
-  }
-
-  private handleIncomingMessage(msg: TelegramBot.Message): void {
-    const chatId = msg.chat.id;
-    const session = this.sessionManager.getSessionByChatId(chatId);
-
-    if (!session) {
-      // Message from unknown chat, ignore or handle differently
-      console.log(`📨 Message from unknown chatId: ${chatId}`);
-      return;
-    }
-
-    let content = '';
-    let type: 'text' | 'voice' | 'image' = 'text';
-    const metadata: Record<string, unknown> = {};
-
-    if (msg.text) {
-      content = msg.text;
-      type = 'text';
-    } else if (msg.voice) {
-      content = '[Voice message]';
-      type = 'voice';
-      metadata.voiceFileId = msg.voice.file_id;
-      metadata.duration = msg.voice.duration;
-    } else if (msg.photo) {
-      content = msg.caption || '[Photo]';
-      type = 'image';
-      metadata.photoFileId = msg.photo[msg.photo.length - 1].file_id;
-    }
-
-    // Store message
-    const storedMessage = this.sessionManager.addMessage(session.id, {
-      sessionId: session.id,
-      type,
-      content,
-      sender: 'bot',
-      metadata,
-    });
-
-    // Notify callback
-    const callback = this.messageCallbacks.get(session.id);
-    if (callback) {
-      callback(content, { ...metadata, messageId: storedMessage.id, type });
-    }
+    this.openaiService = new OpenAIService(sessionManager);
+    console.log('🤖 Telegram bot initialized');
   }
 
   async sendMessage(sessionId: string, text: string): Promise<boolean> {
@@ -85,15 +20,6 @@ export class TelegramService {
       return false;
     }
 
-    if (!this.bot) {
-      console.error('Telegram bot not initialized');
-      return false;
-    }
-
-    // For demo purposes, we'll simulate the bot interaction
-    // In production, this would send to the actual Telegram bot
-    // and the bot would process and respond
-
     // Store user message
     this.sessionManager.addMessage(sessionId, {
       sessionId,
@@ -102,31 +28,44 @@ export class TelegramService {
       sender: 'user',
     });
 
-    // Simulate bot response (in production, this comes from the actual bot)
-    setTimeout(() => {
-      const responses = [
-        "Здравствуйте! Чем могу помочь?",
-        "Спасибо за ваше сообщение. Наш оператор скоро ответит.",
-        "Вы можете посмотреть наше меню или задать вопрос.",
-        "Отличный выбор! Хотите оформить заказ?",
-      ];
-      
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      
+    // Notify typing
+    const callback = this.messageCallbacks.get(sessionId);
+    
+    try {
+      // Get response from OpenAI
+      const response = await this.openaiService.chat(sessionId, text);
+
+      // Store bot message
       const botMessage = this.sessionManager.addMessage(sessionId, {
         sessionId,
         type: 'text',
-        content: randomResponse,
+        content: response,
         sender: 'bot',
       });
 
-      const callback = this.messageCallbacks.get(sessionId);
+      // Send response to client
       if (callback) {
-        callback(randomResponse, { messageId: botMessage.id, type: 'text' });
+        callback(response, { messageId: botMessage.id, type: 'text' });
       }
-    }, 1000 + Math.random() * 1000);
 
-    return true;
+      return true;
+    } catch (error) {
+      console.error('Failed to get AI response:', error);
+      
+      const errorMessage = 'Извините, произошла ошибка. Попробуйте ещё раз.';
+      const botMessage = this.sessionManager.addMessage(sessionId, {
+        sessionId,
+        type: 'text',
+        content: errorMessage,
+        sender: 'bot',
+      });
+
+      if (callback) {
+        callback(errorMessage, { messageId: botMessage.id, type: 'text' });
+      }
+
+      return false;
+    }
   }
 
   async sendAudio(sessionId: string, audioBase64: string, mimeType: string): Promise<boolean> {
@@ -146,25 +85,28 @@ export class TelegramService {
       metadata: { mimeType },
     });
 
-    // Simulate bot response to voice
-    setTimeout(() => {
+    const callback = this.messageCallbacks.get(sessionId);
+
+    try {
+      // Get response from OpenAI
+      const response = await this.openaiService.handleVoice(sessionId);
+
       const botMessage = this.sessionManager.addMessage(sessionId, {
         sessionId,
         type: 'text',
-        content: 'Я получил ваше голосовое сообщение. Обрабатываю...',
+        content: response,
         sender: 'bot',
       });
 
-      const callback = this.messageCallbacks.get(sessionId);
       if (callback) {
-        callback('Я получил ваше голосовое сообщение. Обрабатываю...', { 
-          messageId: botMessage.id, 
-          type: 'text' 
-        });
+        callback(response, { messageId: botMessage.id, type: 'text' });
       }
-    }, 1500);
 
-    return true;
+      return true;
+    } catch (error) {
+      console.error('Failed to handle voice:', error);
+      return false;
+    }
   }
 
   async sendImage(sessionId: string, imageBase64: string, mimeType: string, caption?: string): Promise<boolean> {
@@ -184,25 +126,28 @@ export class TelegramService {
       metadata: { mimeType },
     });
 
-    // Simulate bot response to image
-    setTimeout(() => {
+    const callback = this.messageCallbacks.get(sessionId);
+
+    try {
+      // Get response from OpenAI
+      const response = await this.openaiService.handleImage(sessionId, caption);
+
       const botMessage = this.sessionManager.addMessage(sessionId, {
         sessionId,
         type: 'text',
-        content: 'Спасибо за изображение! Анализирую...',
+        content: response,
         sender: 'bot',
       });
 
-      const callback = this.messageCallbacks.get(sessionId);
       if (callback) {
-        callback('Спасибо за изображение! Анализирую...', { 
-          messageId: botMessage.id, 
-          type: 'text' 
-        });
+        callback(response, { messageId: botMessage.id, type: 'text' });
       }
-    }, 1500);
 
-    return true;
+      return true;
+    } catch (error) {
+      console.error('Failed to handle image:', error);
+      return false;
+    }
   }
 
   onMessage(sessionId: string, callback: (message: string, metadata?: Record<string, unknown>) => void): void {
@@ -211,5 +156,6 @@ export class TelegramService {
 
   removeMessageCallback(sessionId: string): void {
     this.messageCallbacks.delete(sessionId);
+    this.openaiService.clearHistory(sessionId);
   }
 }
