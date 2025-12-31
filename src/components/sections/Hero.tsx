@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { GradientButton, AnimatedCounter } from '../ui';
+import { HeroChat } from '../chat/HeroChat';
 
 interface HeroProps {
   t: (key: string) => string;
@@ -86,24 +87,23 @@ export function Hero({ t, onRequestDemo }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
           >
             <GradientButton onClick={onRequestDemo} size="lg">
               {t('requestDemo')}
               <ArrowRight className="inline-block ml-2 w-5 h-5" />
             </GradientButton>
-            <GradientButton variant="secondary" size="lg">
-              <Play className="inline-block mr-2 w-5 h-5" />
-              Watch Demo
-            </GradientButton>
           </motion.div>
+
+          {/* Embedded Chat Demo - Updated */}
+          <HeroChat t={t} />
 
           {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16"
           >
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-light-text dark:text-dark-text mb-1">

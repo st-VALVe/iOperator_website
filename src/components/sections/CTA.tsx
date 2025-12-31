@@ -45,16 +45,22 @@ export function CTA({ t, onRequestDemo }: CTAProps) {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
+              <GradientButton
                 onClick={onRequestDemo}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white text-primary-600 font-semibold hover:bg-white/90 transition-colors"
+                size="lg"
+                variant="secondary"
+                className="bg-white text-primary-600 hover:bg-white/90 border-0"
               >
                 Get Started Free
-                <ArrowRight className="w-5 h-5" />
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors border border-white/20">
+                <ArrowRight className="inline-block ml-2 w-5 h-5" />
+              </GradientButton>
+              <GradientButton
+                size="lg"
+                variant="outline"
+                className="bg-white/10 text-white border-white/20 hover:bg-white/20"
+              >
                 Schedule a Demo
-              </button>
+              </GradientButton>
             </div>
 
             <p className="mt-6 text-white/60 text-sm">

@@ -194,12 +194,13 @@ export function Pricing({ t, onSelectPlan }: PricingProps) {
 
               {/* CTA Button */}
               {plan.popular ? (
-                <button
+                <GradientButton
                   onClick={() => onSelectPlan(plan.name)}
-                  className="w-full py-3 px-6 rounded-xl bg-white text-primary-600 font-semibold hover:bg-white/90 transition-colors"
+                  className="w-full bg-white text-primary-600 hover:bg-white/90"
+                  variant="secondary"
                 >
                   Get Started
-                </button>
+                </GradientButton>
               ) : (
                 <GradientButton
                   variant="outline"
