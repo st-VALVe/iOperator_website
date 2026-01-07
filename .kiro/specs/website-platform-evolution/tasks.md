@@ -185,32 +185,32 @@
 
 ### Фаза 3: Аутентификация и Dashboard
 
-- [ ] 10. Настроить Supabase
-  - [ ] 10.1 Инициализировать Supabase проект
+- [x] 10. Настроить Supabase
+  - [x] 10.1 Инициализировать Supabase проект
     - Создать проект в Supabase Dashboard
     - Настроить environment variables
     - Установить `@supabase/supabase-js`
     - _Requirements: 14.1, 14.3_
-  - [ ] 10.2 Создать схему базы данных
+  - [x] 10.2 Создать схему базы данных
     - Создать таблицы: profiles, business_profiles, menu_items, subscriptions, conversation_logs
     - Настроить Row Level Security (RLS)
     - _Requirements: 14.4_
-  - [ ] 10.3 Настроить Supabase Storage
+  - [x] 10.3 Настроить Supabase Storage
     - Создать bucket для меню и изображений
     - Настроить политики доступа
     - _Requirements: 14.5_
 
-- [ ] 11. Реализовать аутентификацию
-  - [ ] 11.1 Создать страницы Login и Register
+- [x] 11. Реализовать аутентификацию
+  - [x] 11.1 Создать страницы Login и Register
     - Создать `src/pages/Login.tsx`
     - Создать `src/pages/Register.tsx`
     - Интегрировать с Supabase Auth
     - _Requirements: 5.1, 5.3_
-  - [ ] 11.2 Добавить OAuth (Google)
+  - [x] 11.2 Добавить OAuth (Google)
     - Настроить Google OAuth в Supabase
     - Добавить кнопку "Sign in with Google"
     - _Requirements: 5.6_
-  - [ ] 11.3 Реализовать password reset
+  - [x] 11.3 Реализовать password reset
     - Создать страницу восстановления пароля
     - Настроить email templates в Supabase
     - _Requirements: 5.7_
@@ -218,30 +218,30 @@
     - **Property 4: Authentication Data Integrity**
     - **Validates: Requirements 5.2, 5.7, 5.8**
 
-- [ ] 12. Создать базовый Dashboard
-  - [ ] 12.1 Настроить React Router
+- [x] 12. Создать базовый Dashboard
+  - [x] 12.1 Настроить React Router
     - Установить `react-router-dom`
     - Создать protected routes
     - Настроить layout для Dashboard
     - _Requirements: 5.4_
-  - [ ] 12.2 Создать Dashboard layout
+  - [x] 12.2 Создать Dashboard layout
     - Создать `src/layouts/DashboardLayout.tsx`
     - Добавить sidebar navigation
     - Добавить header с user info
     - _Requirements: 6.1_
 
-- [ ] 13. Реализовать Business Profile
-  - [ ] 13.1 Создать форму профиля бизнеса
+- [x] 13. Реализовать Business Profile
+  - [x] 13.1 Создать форму профиля бизнеса
     - Создать `src/pages/dashboard/BusinessProfile.tsx`
     - Добавить поля: name, type, description, contacts
     - Интегрировать с Supabase
     - _Requirements: 6.2_
-  - [ ] 13.2 Реализовать управление меню
+  - [x] 13.2 Реализовать управление меню
     - Создать `src/pages/dashboard/MenuManager.tsx`
     - Добавить CRUD для menu items
     - Добавить загрузку изображений
     - _Requirements: 6.3, 6.4_
-  - [ ] 13.3 Добавить индикатор completeness
+  - [x] 13.3 Добавить индикатор completeness
     - Рассчитывать процент заполненности
     - Показывать progress bar
     - _Requirements: 6.6_

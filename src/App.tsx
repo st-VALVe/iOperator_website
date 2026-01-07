@@ -1,25 +1,70 @@
 import { useState, useEffect } from 'react';
-import { translations, getTranslation, type Language } from './translations';
-import {
-  Header,
-  Hero,
-  Integrations,
-  Features,
-  HowItWorks,
-  Pricing,
-  FAQ,
-  Testimonials,
-  CTA,
-  Footer,
-} from './components/sections';
-import { ChatWidget } from './components/chat';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { type Language } from './translations';
 
-function App() {
+// Pages
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+
+// Dashboard
+import DashboardLayout from './layouts/DashboardLayout';
+import { Overview, BusinessProfile, MenuManager } from './pages/dashboard';
+
+// Protected Route Component
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+// Public Route (redirect to dashboard if logged in)
+function PublicRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+// Placeholder page for routes not yet implemented
+function PlaceholderPage({ title }: { title: string }) {
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{title}</h1>
+        <p className="text-gray-600 dark:text-gray-400">This page will be implemented soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function AppRoutes() {
   const [language, setLanguage] = useState<Language>('en');
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formType, setFormType] = useState<'demo' | 'question'>('demo');
-
-  const t = (key: string) => getTranslation(language, key as keyof typeof translations.en);
 
   // Initialize theme on mount
   useEffect(() => {
@@ -31,64 +76,75 @@ function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
+
+    // Load saved language
+    const savedLanguage = localStorage.getItem('language') as Language;
+    if (savedLanguage && ['en', 'ru', 'tr'].includes(savedLanguage)) {
+      setLanguage(savedLanguage);
+    }
   }, []);
 
-  const openForm = (type: 'demo' | 'question') => {
-    setFormType(type);
-    setIsFormOpen(true);
-  };
-
-  const handleSelectPlan = (plan: string) => {
-    console.log('Selected plan:', plan);
-    openForm('demo');
+  // Save language preference
+  const handleSetLanguage = (lang: Language) => {
+    setLanguage(lang);
+    localStorage.setItem('language', lang);
   };
 
   return (
-    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-300">
-      <Header
-        t={t}
-        language={language}
-        setLanguage={setLanguage}
-        onRequestDemo={() => openForm('demo')}
-        onAskQuestion={() => openForm('question')}
+    <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<Landing language={language} setLanguage={handleSetLanguage} />} />
+      
+      {/* Auth routes */}
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
       />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
 
-      <main>
-        <Hero t={t} onRequestDemo={() => openForm('demo')} />
-        <Integrations t={t} />
-        <Features t={t} />
-        <HowItWorks t={t} />
-        <Pricing t={t} onSelectPlan={handleSelectPlan} />
-        <Testimonials t={t} />
-        <FAQ t={t} />
-        <CTA t={t} onRequestDemo={() => openForm('demo')} />
-      </main>
+      {/* Protected routes - Dashboard */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Overview />} />
+        <Route path="profile" element={<BusinessProfile />} />
+        <Route path="menu" element={<MenuManager />} />
+        <Route path="ai-config" element={<PlaceholderPage title="AI Configuration" />} />
+        <Route path="analytics" element={<PlaceholderPage title="Analytics" />} />
+        <Route path="billing" element={<PlaceholderPage title="Billing" />} />
+        <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+      </Route>
 
-      <Footer t={t} />
+      {/* Catch all - redirect to home */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
 
-      {/* AI Demo Chat Widget */}
-      <ChatWidget t={t} />
-
-      {/* Contact Form Modal */}
-      {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-dark-bg-secondary rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
-            <h3 className="text-2xl font-bold mb-4 text-light-text dark:text-dark-text">
-              {formType === 'demo' ? t('requestDemoTitle') : t('askQuestionTitle')}
-            </h3>
-            <p className="text-light-text-secondary dark:text-dark-text-secondary mb-6">
-              Contact form will be implemented in Phase 2.
-            </p>
-            <button
-              onClick={() => setIsFormOpen(false)}
-              className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold hover:opacity-90 transition-opacity"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

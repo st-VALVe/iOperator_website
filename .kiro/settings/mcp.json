@@ -32,7 +32,7 @@
         "mcp-remote",
         "https://mcp.supabase.com/mcp"
       ],
-      "disabled": true
+      "disabled": false
     }
   }
 }
