@@ -12,6 +12,8 @@ import ForgotPassword from './pages/ForgotPassword';
 // Dashboard
 import DashboardLayout from './layouts/DashboardLayout';
 import { Overview, BusinessProfile, MenuManager } from './pages/dashboard';
+import AgentPage from './pages/dashboard/agent/AgentPage';
+import SettingsPage from './pages/dashboard/settings/SettingsPage';
 
 // Protected Route Component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -126,10 +128,9 @@ function AppRoutes() {
         <Route index element={<Overview />} />
         <Route path="profile" element={<BusinessProfile />} />
         <Route path="menu" element={<MenuManager />} />
-        <Route path="ai-config" element={<PlaceholderPage title="AI Configuration" />} />
+        <Route path="agent" element={<AgentPage />} />
         <Route path="analytics" element={<PlaceholderPage title="Analytics" />} />
-        <Route path="billing" element={<PlaceholderPage title="Billing" />} />
-        <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
       {/* Catch all - redirect to home */}

@@ -24,15 +24,6 @@
         "xc-mcp-token: pF0auzBGxsp6aG69G2y1Eju72W5hZYPz"
       ],
       "disabled": true
-    },
-    "supabase": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.supabase.com/mcp"
-      ],
-      "disabled": false
     }
   }
 }
