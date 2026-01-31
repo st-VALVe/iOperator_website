@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Globe, Menu, X, User, LogIn } from 'lucide-react';
+import { Bot, Globe, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ThemeToggle, GradientButton } from '../ui';
 import { Language } from '../../translations';
@@ -117,7 +117,6 @@ export function Header({
                 size="sm" 
                 onClick={() => navigate('/dashboard')}
               >
-                <User className="w-4 h-4 mr-1" />
                 {t('dashboard')}
               </GradientButton>
             ) : (
@@ -126,7 +125,6 @@ export function Header({
                 size="sm" 
                 onClick={() => navigate('/login')}
               >
-                <LogIn className="w-4 h-4 mr-1" />
                 {t('login')}
               </GradientButton>
             )}
@@ -185,12 +183,10 @@ export function Header({
                   </GradientButton>
                   {user ? (
                     <GradientButton variant="outline" onClick={() => navigate('/dashboard')}>
-                      <User className="w-4 h-4 mr-1" />
                       {t('dashboard')}
                     </GradientButton>
                   ) : (
                     <GradientButton variant="outline" onClick={() => navigate('/login')}>
-                      <LogIn className="w-4 h-4 mr-1" />
                       {t('login')}
                     </GradientButton>
                   )}
