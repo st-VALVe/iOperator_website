@@ -5,3 +5,4 @@ export { AnimatedCounter } from './AnimatedCounter';
 export { ScrollReveal, StaggerContainer, StaggerItem } from './ScrollReveal';
 export { BentoGrid, BentoCard } from './BentoGrid';
 export { Accordion, AccordionItem } from './Accordion';
+export { default as ConfirmationPopup } from './ConfirmationPopup';

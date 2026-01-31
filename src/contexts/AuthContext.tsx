@@ -11,6 +11,8 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  showConfirmationPopup: boolean;
+  setShowConfirmationPopup: (show: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,8 +21,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
 
   useEffect(() => {
+    // Check for signup confirmation in URL hash
+    const hash = window.location.hash;
+    if (hash && hash.includes('type=signup') && hash.includes('access_token=')) {
+      setShowConfirmationPopup(true);
+      // Clean up the URL hash
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -94,6 +105,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signInWithGoogle,
         signOut,
         resetPassword,
+        showConfirmationPopup,
+        setShowConfirmationPopup,
       }}
     >
       {children}

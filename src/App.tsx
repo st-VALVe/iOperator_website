@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { type Language } from './translations';
+import { ConfirmationPopup } from './components/ui';
 
 // Pages
 import Landing from './pages/Landing';
@@ -67,6 +68,7 @@ function PlaceholderPage({ title }: { title: string }) {
 
 function AppRoutes() {
   const [language, setLanguage] = useState<Language>('en');
+  const { showConfirmationPopup, setShowConfirmationPopup } = useAuth();
 
   // Initialize theme on mount
   useEffect(() => {
@@ -93,49 +95,57 @@ function AppRoutes() {
   };
 
   return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/" element={<Landing language={language} setLanguage={handleSetLanguage} />} />
-      
-      {/* Auth routes */}
-      <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicRoute>
-            <Register />
-          </PublicRoute>
-        }
-      />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+    <>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Landing language={language} setLanguage={handleSetLanguage} />} />
+        
+        {/* Auth routes */}
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
+        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
-      {/* Protected routes - Dashboard */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Overview />} />
-        <Route path="profile" element={<BusinessProfile />} />
-        <Route path="menu" element={<MenuManager />} />
-        <Route path="agent" element={<AgentPage />} />
-        <Route path="analytics" element={<PlaceholderPage title="Analytics" />} />
-        <Route path="settings" element={<SettingsPage />} />
-      </Route>
+        {/* Protected routes - Dashboard */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Overview />} />
+          <Route path="profile" element={<BusinessProfile />} />
+          <Route path="menu" element={<MenuManager />} />
+          <Route path="agent" element={<AgentPage />} />
+          <Route path="analytics" element={<PlaceholderPage title="Analytics" />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
 
-      {/* Catch all - redirect to home */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* Catch all - redirect to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
+      {/* Email Confirmation Popup */}
+      <ConfirmationPopup
+        isOpen={showConfirmationPopup}
+        onClose={() => setShowConfirmationPopup(false)}
+      />
+    </>
   );
 }
 
