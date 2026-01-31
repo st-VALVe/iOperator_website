@@ -7,6 +7,8 @@ export const translations = {
     integrationsTitle: 'Seamless Integrations',
     requestDemo: 'Request Demo',
     askQuestion: 'Ask Question',
+    dashboard: 'Dashboard',
+    login: 'Log In',
     
     // Hero section
     heroTitle: 'AI Operator for Restaurants',
@@ -182,6 +184,8 @@ export const translations = {
     integrationsTitle: 'Бесшовные интеграции',
     requestDemo: 'Запросить демо',
     askQuestion: 'Задать вопрос',
+    dashboard: 'Кабинет',
+    login: 'Войти',
     heroTitle: 'ИИ-оператор для ресторанов',
     heroSubtitle: 'Автоматизация обслуживания и коммуникаций с клиентами в Telegram и WhatsApp',
     acceleratesService: 'Ускоряет обслуживание',
@@ -340,6 +344,8 @@ export const translations = {
     integrationsTitle: 'Sorunsuz Entegrasyonlar',
     requestDemo: 'Demo İste',
     askQuestion: 'Soru Sor',
+    dashboard: 'Panel',
+    login: 'Giriş',
     heroTitle: 'Restoranlar için AI Operatör',
     heroSubtitle: 'Telegram ve WhatsApp üzerinden müşteri hizmetleri ve iletişimin otomasyonu',
     acceleratesService: 'Hizmeti Hızlandırır',

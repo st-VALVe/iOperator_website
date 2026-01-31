@@ -42,7 +42,6 @@ export default function Landing({ language, setLanguage }: LandingProps) {
         language={language}
         setLanguage={setLanguage}
         onRequestDemo={() => openForm('demo')}
-        onAskQuestion={() => openForm('question')}
       />
 
       <main>

@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Globe, Menu, X } from 'lucide-react';
+import { Bot, Globe, Menu, X, User, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ThemeToggle, GradientButton } from '../ui';
 import { Language } from '../../translations';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface HeaderProps {
   t: (key: string) => string;
   language: Language;
   setLanguage: (lang: Language) => void;
   onRequestDemo: () => void;
-  onAskQuestion: () => void;
 }
 
 export function Header({
@@ -17,10 +18,11 @@ export function Header({
   language,
   setLanguage,
   onRequestDemo,
-  onAskQuestion,
 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const languages: { code: Language; name: string }[] = [
     { code: 'en', name: 'English' },
@@ -108,10 +110,26 @@ export function Header({
             {/* Theme Toggle */}
             <ThemeToggle />
 
-            {/* CTA Buttons */}
-            <GradientButton variant="secondary" size="sm" onClick={onAskQuestion}>
-              {t('askQuestion')}
-            </GradientButton>
+            {/* Dashboard / Login Button */}
+            {user ? (
+              <GradientButton 
+                variant="secondary" 
+                size="sm" 
+                onClick={() => navigate('/dashboard')}
+              >
+                <User className="w-4 h-4 mr-1" />
+                {t('dashboard')}
+              </GradientButton>
+            ) : (
+              <GradientButton 
+                variant="secondary" 
+                size="sm" 
+                onClick={() => navigate('/login')}
+              >
+                <LogIn className="w-4 h-4 mr-1" />
+                {t('login')}
+              </GradientButton>
+            )}
             <GradientButton size="sm" onClick={onRequestDemo}>
               {t('requestDemo')}
             </GradientButton>
@@ -165,9 +183,17 @@ export function Header({
                   <GradientButton onClick={onRequestDemo}>
                     {t('requestDemo')}
                   </GradientButton>
-                  <GradientButton variant="outline" onClick={onAskQuestion}>
-                    {t('askQuestion')}
-                  </GradientButton>
+                  {user ? (
+                    <GradientButton variant="outline" onClick={() => navigate('/dashboard')}>
+                      <User className="w-4 h-4 mr-1" />
+                      {t('dashboard')}
+                    </GradientButton>
+                  ) : (
+                    <GradientButton variant="outline" onClick={() => navigate('/login')}>
+                      <LogIn className="w-4 h-4 mr-1" />
+                      {t('login')}
+                    </GradientButton>
+                  )}
                 </div>
               </div>
             </motion.div>
