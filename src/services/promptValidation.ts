@@ -113,7 +113,7 @@ export function substituteVariables(
 export function extractVariables(content: string): string[] {
   const variables: string[] = [];
   let match;
-  
+
   while ((match = VARIABLE_PATTERN.exec(content)) !== null) {
     const varName = match[1];
     if (!variables.includes(varName)) {
@@ -159,7 +159,7 @@ export function generatePreview(
 ): string {
   const defaultSamples: Record<string, string> = {
     business_name: 'Название компании',
-    business_type: 'Ресторан',
+    business_type: 'Business Type',
     address: 'ул. Примерная, д. 1',
     contact_phone: '+7 (999) 123-45-67',
     working_hours: 'Пн-Пт: 9:00-22:00, Сб-Вс: 10:00-23:00',

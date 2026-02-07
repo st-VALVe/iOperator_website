@@ -94,7 +94,7 @@ export const DEFAULT_PROMPT_VARIABLES: PromptVariable[] = [
     label: 'Тип бизнеса',
     default_value: '',
     source: 'business_profile',
-    description: 'Тип бизнеса (ресторан, кафе и т.д.)'
+    description: 'Business type from the business profile'
   },
   {
     key: 'contact_phone',

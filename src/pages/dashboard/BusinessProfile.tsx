@@ -15,7 +15,13 @@ type BusinessProfileType = Database['public']['Tables']['business_profiles']['Ro
 const BUSINESS_TYPES = [
   { value: 'restaurant', label: 'Restaurant' },
   { value: 'cafe', label: 'Café' },
+  { value: 'retail', label: 'Retail Store' },
+  { value: 'clinic', label: 'Clinic / Medical' },
+  { value: 'beauty', label: 'Beauty & Wellness' },
+  { value: 'education', label: 'Education' },
   { value: 'delivery', label: 'Delivery Service' },
+  { value: 'hospitality', label: 'Hotel / Hospitality' },
+  { value: 'logistics', label: 'Logistics' },
   { value: 'other', label: 'Other' },
 ];
 
@@ -31,11 +37,11 @@ export default function BusinessProfile() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [profile, setProfile] = useState<BusinessProfileType | null>(null);
-  
+
   // Form state
   const [formData, setFormData] = useState({
     name: '',
-    type: '' as 'restaurant' | 'cafe' | 'delivery' | 'other' | '',
+    type: '' as 'restaurant' | 'cafe' | 'retail' | 'clinic' | 'beauty' | 'education' | 'delivery' | 'hospitality' | 'logistics' | 'other' | '',
     description: '',
     contact_phone: '',
     contact_email: '',
@@ -194,7 +200,7 @@ export default function BusinessProfile() {
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             {t('dashboard.basicInfo') || 'Basic Information'}
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -251,7 +257,7 @@ export default function BusinessProfile() {
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             {t('dashboard.contactInfo') || 'Contact Information'}
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -304,14 +310,14 @@ export default function BusinessProfile() {
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             {t('dashboard.workingHours') || 'Working Hours'}
           </h2>
-          
+
           <div className="space-y-3">
             {formData.working_hours.map((day, index) => (
               <div key={index} className="flex items-center gap-4 flex-wrap">
                 <div className="w-28 text-sm font-medium text-gray-700 dark:text-gray-300">
                   {DAYS_OF_WEEK[day.dayOfWeek]}
                 </div>
-                
+
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"

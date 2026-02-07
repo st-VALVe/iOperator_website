@@ -6,7 +6,7 @@
         "-y",
         "@modelcontextprotocol/server-github"
       ],
-      "disabled": false,
+      "disabled": true,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "your-github-token-here"
       },

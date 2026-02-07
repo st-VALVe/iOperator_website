@@ -9,9 +9,9 @@ export const translations = {
     askQuestion: 'Ask Question',
     dashboard: 'Dashboard',
     login: 'Log In',
-    
+
     // Hero section
-    heroTitle: 'AI Operator for Restaurants',
+    heroTitle: 'AI Operator for Your Business',
     heroSubtitle: 'Automating customer service and communications via Telegram and WhatsApp',
     acceleratesService: 'Accelerates Service',
     instantResponses: 'Instant responses 24/7',
@@ -22,15 +22,15 @@ export const translations = {
     communicationVia: 'Communication via Telegram and WhatsApp',
     supportLanguages: 'Support for 50+ languages',
     orderAutomation: 'Order automation',
-    
+
     // Features
     whatSystemDoes: 'What the System Does',
     smartCommunications: 'Smart Communications',
     textVoiceRecognition: 'Text and voice recognition',
-    foodPhotoAnalysis: 'Food photo analysis',
+    foodPhotoAnalysis: 'Image and document analysis',
     orderAutomationTitle: 'Order Automation',
-    menuImport: 'Menu import from Syrve',
-    dishSelection: 'Help with dish selection',
+    menuImport: 'Catalog import from your system',
+    dishSelection: 'Help with product selection',
     addressVerification: 'Delivery address verification',
     orderProcessing: 'Order processing',
     personalization: 'Personalization',
@@ -39,7 +39,7 @@ export const translations = {
     orderReminders: 'Order reminders',
     personalizedOffers: 'Personalized offers',
     works247: 'Works 24/7. Never gets tired, never makes mistakes, never takes days off.',
-    
+
     // Communication scenario
     communicationScenario: 'Communication Scenario Example',
     step1Title: 'Client sends request',
@@ -55,7 +55,7 @@ export const translations = {
     step6Title: 'Client confirmation',
     step6Desc: 'Instant notification with details and delivery time',
     allInOneWindow: 'Everything happens in one messenger window. No calls. No waiting. No errors.',
-    
+
     // Service improvement
     serviceImprovement: 'Service Improvement',
     clientBenefits: 'Benefits for Clients',
@@ -76,7 +76,7 @@ export const translations = {
     realTimeAnalyticsDesc: 'Reports on orders, preferences, activity peaks',
     preciseMarketing: 'Precise Marketing',
     preciseMarketingDesc: 'Data for targeted campaigns and promotions',
-    
+
     // Cost savings
     operatorCostSavings: 'Operator Cost Savings',
     traditionalModel: 'Traditional Model',
@@ -97,30 +97,30 @@ export const translations = {
     whenReplacing: 'when replacing 5 operators',
     monthsToPayback: 'Months to Payback',
     savingsFromDayOne: 'savings start from day one',
-    
+
     // Repeat orders
     repeatOrderGrowth: 'Repeat Order Growth',
     preferenceMemory: 'Preference Memory',
-    preferenceMemoryDesc: 'The system remembers each customer\'s favorite dishes and suggests them on the next order',
+    preferenceMemoryDesc: 'The system remembers each customer\'s favorite products and suggests them on the next order',
     personalCongratulations: 'Personal Congratulations',
     personalCongratulationsDesc: 'Automatic birthday greetings and special holiday offers',
     smartRecommendations: 'Smart Recommendations',
-    smartRecommendationsDesc: 'AI analyzes history and suggests new dishes based on taste preferences',
+    smartRecommendationsDesc: 'AI analyzes history and suggests new products based on purchase preferences',
     timelyReminders: 'Timely Reminders',
-    timelyRemindersDesc: 'Notifications about seasonal menus, promotions, and weekly favorites',
+    timelyRemindersDesc: 'Notifications about seasonal offers, promotions, and popular items of the week',
     createsAttention: 'This creates a sense of attention and care. Customers return more often and order more.',
     repeatOrderGrowthPercent: 'Repeat Order Growth',
     thanksToPersonalization: 'thanks to personalization',
     averageCheckIncrease: 'Average Check Increase',
     throughSmartRecommendations: 'through smart recommendations',
-    
+
     // ROI
     returnOnInvestment: 'Return on Investment',
     initialExpenses: 'Initial Expenses',
     systemSetup: 'System Setup',
     oneTimeIntegration: 'One-time integration with your infrastructure',
     aiTraining: 'AI Training',
-    adaptation: 'Adaptation to your menu and processes',
+    adaptation: 'Adaptation to your catalog and processes',
     monthlyCosts: 'Monthly Costs',
     platformSubscription: 'AI platform subscription based on volume',
     technicalSupport: 'Technical Support',
@@ -131,13 +131,13 @@ export const translations = {
     monthsToPaybackROI: 'Months to Payback',
     quickReturn: 'quick return on investment',
     annualSavings: 'Annual Savings',
-    perLocation: 'per location for average restaurant',
+    perLocation: 'per location for average business',
     roiFirstYear: 'ROI in First Year',
     includingGrowth: 'including sales growth and savings',
-    
+
     // CTA
     readyForTransformation: 'Ready for Transformation?',
-    makesOperations: 'AI Operator makes restaurant operations faster, smarter, and more profitable. Technology that pays for itself from the first month.',
+    makesOperations: 'AI Operator makes your business operations faster, smarter, and more profitable. Technology that pays for itself from the first month.',
     reducesExpenses: 'Reduces Expenses',
     saveUpTo95: 'Save up to 95% on operators',
     increasesSales: 'Increases Sales',
@@ -149,8 +149,8 @@ export const translations = {
     easyToScale: 'Easy to Scale',
     fromOneToHundreds: 'From one to hundreds of locations',
     nextStep: 'Next Step',
-    readyToConnect: 'Ready to connect a demo and test the system at your restaurant. You\'ll see results in the first week.',
-    
+    readyToConnect: 'Ready to connect a demo and test the system for your business. You\'ll see results in the first week.',
+
     // Form
     requestType: 'Request Type',
     requestDemoTitle: 'Request Demo',
@@ -159,7 +159,7 @@ export const translations = {
     message: 'Message',
     email: 'Email',
     yourQuestion: 'Your question',
-    tellAboutRestaurant: 'Tell us about your restaurant and we will prepare a personalized demo...',
+    tellAboutRestaurant: 'Tell us about your business and we will prepare a personalized demo...',
     askAboutSystem: 'Ask us anything about the AI Operator system...',
     sendQuestion: 'Send Question',
     cancel: 'Cancel',
@@ -168,15 +168,15 @@ export const translations = {
     thankYouQuestion: 'Thank you for your question!',
     emailClientOpen: 'Your email client should open automatically. Please send the email to complete your request.',
     willContactSoon: 'We will contact you soon at',
-    
+
     // Footer
-    footerDescription: 'AI-powered customer service automation for restaurants. Streamline operations and boost customer satisfaction.',
+    footerDescription: 'AI-powered customer service automation for businesses. Streamline operations and boost customer satisfaction.',
     contactUs: 'Contact Us',
     quickLinks: 'Quick Links',
     features: 'Features',
     pricing: 'Pricing',
     allRightsReserved: 'All rights reserved.',
-    aiPoweredAutomation: 'AI-powered restaurant customer service automation',
+    aiPoweredAutomation: 'AI-powered customer service automation',
     globalService: 'Global Service'
   },
   ru: {
@@ -186,7 +186,7 @@ export const translations = {
     askQuestion: 'Задать вопрос',
     dashboard: 'Кабинет',
     login: 'Войти',
-    heroTitle: 'ИИ-оператор для ресторанов',
+    heroTitle: 'ИИ-оператор для вашего бизнеса',
     heroSubtitle: 'Автоматизация обслуживания и коммуникаций с клиентами в Telegram и WhatsApp',
     acceleratesService: 'Ускоряет обслуживание',
     instantResponses: 'Мгновенные ответы 24/7',
@@ -200,10 +200,10 @@ export const translations = {
     whatSystemDoes: 'Что делает система',
     smartCommunications: 'Умные коммуникации',
     textVoiceRecognition: 'Распознавание текста и голоса',
-    foodPhotoAnalysis: 'Анализ фотографий блюд',
+    foodPhotoAnalysis: 'Анализ изображений и документов',
     orderAutomationTitle: 'Автоматизация заказов',
-    menuImport: 'Загрузка меню из Syrve',
-    dishSelection: 'Помощь в выборе блюд',
+    menuImport: 'Импорт каталога из вашей системы',
+    dishSelection: 'Помощь в выборе продуктов',
     addressVerification: 'Проверка адреса доставки',
     orderProcessing: 'Формирование заказа',
     personalization: 'Персонализация',
@@ -212,7 +212,7 @@ export const translations = {
     orderReminders: 'Напоминания о заказах',
     personalizedOffers: 'Индивидуальные предложения',
     works247: 'Работает круглосуточно. Не устает, не ошибается, не берет выходные.',
-    
+
     // Communication scenario
     communicationScenario: 'Пример сценария общения',
     step1Title: 'Клиент отправляет запрос',
@@ -228,7 +228,7 @@ export const translations = {
     step6Title: 'Подтверждение клиенту',
     step6Desc: 'Мгновенное уведомление с деталями и временем доставки',
     allInOneWindow: 'Все происходит в одном окне мессенджера. Без звонков. Без ожидания. Без ошибок.',
-    
+
     // Service improvement
     serviceImprovement: 'Улучшение сервиса',
     clientBenefits: 'Преимущества для клиентов',
@@ -249,7 +249,7 @@ export const translations = {
     realTimeAnalyticsDesc: 'Отчеты по заказам, предпочтениям, пикам активности',
     preciseMarketing: 'Точный маркетинг',
     preciseMarketingDesc: 'Данные для таргетированных акций и кампаний',
-    
+
     operatorCostSavings: 'Экономия на операторах',
     traditionalModel: 'Традиционная модель',
     operators247: '5-7 операторов для работы 24/7',
@@ -271,13 +271,13 @@ export const translations = {
     savingsFromDayOne: 'начало экономии с первого дня',
     repeatOrderGrowth: 'Рост повторных заказов',
     preferenceMemory: 'Память о предпочтениях',
-    preferenceMemoryDesc: 'Система запоминает любимые блюда каждого клиента и предлагает их при следующем заказе',
+    preferenceMemoryDesc: 'Система запоминает предпочтения каждого клиента и предлагает их при следующем обращении',
     personalCongratulations: 'Персональные поздравления',
     personalCongratulationsDesc: 'Автоматические поздравления с днем рождения и специальные праздничные предложения',
     smartRecommendations: 'Умные рекомендации',
-    smartRecommendationsDesc: 'ИИ анализирует историю и предлагает новые блюда на основе вкусовых предпочтений',
+    smartRecommendationsDesc: 'ИИ анализирует историю и предлагает новые продукты на основе предпочтений',
     timelyReminders: 'Своевременные напоминания',
-    timelyRemindersDesc: 'Уведомления о сезонном меню, акциях и любимых позициях недели',
+    timelyRemindersDesc: 'Уведомления о сезонных предложениях, акциях и популярных позициях недели',
     createsAttention: 'Это создает чувство внимания и заботы. Клиенты возвращаются чаще, заказывают больше.',
     repeatOrderGrowthPercent: 'Рост повторных заказов',
     thanksToPersonalization: 'благодаря персонализации',
@@ -288,7 +288,7 @@ export const translations = {
     systemSetup: 'Настройка системы',
     oneTimeIntegration: 'Единоразовая интеграция с вашей инфраструктурой',
     aiTraining: 'Обучение ИИ',
-    adaptation: 'Адаптация под ваше меню и процессы',
+    adaptation: 'Адаптация под ваш каталог и процессы',
     monthlyCosts: 'Ежемесячные затраты',
     platformSubscription: 'Подписка на ИИ-платформу в зависимости от объема',
     technicalSupport: 'Техподдержка',
@@ -299,11 +299,11 @@ export const translations = {
     monthsToPaybackROI: 'Месяца до окупаемости',
     quickReturn: 'быстрый возврат инвестиций',
     annualSavings: 'Годовая экономия',
-    perLocation: 'на одну точку при среднем ресторане',
+    perLocation: 'на одну точку при среднем бизнесе',
     roiFirstYear: 'ROI за первый год',
     includingGrowth: 'с учетом роста продаж и экономии',
     readyForTransformation: 'Готовы к трансформации?',
-    makesOperations: 'ИИ-оператор делает работу ресторана быстрее, умнее и прибыльнее. Технология, которая окупается с первого месяца.',
+    makesOperations: 'ИИ-оператор делает работу вашего бизнеса быстрее, умнее и прибыльнее. Технология, которая окупается с первого месяца.',
     reducesExpenses: 'Снижает расходы',
     saveUpTo95: 'Экономия до 95% на операторах',
     increasesSales: 'Увеличивает продажи',
@@ -315,13 +315,13 @@ export const translations = {
     easyToScale: 'Легко масштабируется',
     fromOneToHundreds: 'От одной до сотен точек',
     nextStep: 'Следующий шаг',
-    readyToConnect: 'Готовы подключить демонстрацию и протестировать систему на вашем ресторане. Увидите результаты уже в первую неделю.',
+    readyToConnect: 'Готовы подключить демонстрацию и протестировать систему для вашего бизнеса. Увидите результаты уже в первую неделю.',
     requestDemoTitle: 'Запросить демо',
     askQuestionTitle: 'Задать вопрос',
     name: 'Имя',
     email: 'Email',
     yourQuestion: 'Ваш вопрос',
-    tellAboutRestaurant: 'Расскажите о вашем ресторане, и мы подготовим персонализированную демонстрацию...',
+    tellAboutRestaurant: 'Расскажите о вашем бизнесе, и мы подготовим персонализированную демонстрацию...',
     askAboutSystem: 'Задайте нам любой вопрос об системе AI Оператор...',
     sendQuestion: 'Отправить вопрос',
     cancel: 'Отмена',
@@ -330,13 +330,13 @@ export const translations = {
     thankYouQuestion: 'Спасибо за ваш вопрос!',
     emailClientOpen: 'Ваш почтовый клиент должен открыться автоматически. Пожалуйста, отправьте письмо для завершения запроса.',
     willContactSoon: 'Мы свяжемся с вами в ближайшее время по адресу',
-    footerDescription: 'ИИ-автоматизация обслуживания клиентов для ресторанов. Оптимизация операций и повышение удовлетворенности клиентов.',
+    footerDescription: 'ИИ-автоматизация обслуживания клиентов для бизнеса. Оптимизация операций и повышение удовлетворенности клиентов.',
     contactUs: 'Свяжитесь с нами',
     quickLinks: 'Быстрые ссылки',
     features: 'Возможности',
     pricing: 'Цены',
     allRightsReserved: 'Все права защищены.',
-    aiPoweredAutomation: 'ИИ-автоматизация обслуживания клиентов в ресторанах',
+    aiPoweredAutomation: 'ИИ-автоматизация обслуживания клиентов',
     globalService: 'Глобальный сервис'
   },
   tr: {
@@ -346,7 +346,7 @@ export const translations = {
     askQuestion: 'Soru Sor',
     dashboard: 'Panel',
     login: 'Giriş',
-    heroTitle: 'Restoranlar için AI Operatör',
+    heroTitle: 'İşletmeniz için AI Operatör',
     heroSubtitle: 'Telegram ve WhatsApp üzerinden müşteri hizmetleri ve iletişimin otomasyonu',
     acceleratesService: 'Hizmeti Hızlandırır',
     instantResponses: '7/24 anında yanıtlar',
@@ -360,10 +360,10 @@ export const translations = {
     whatSystemDoes: 'Sistem Ne Yapar',
     smartCommunications: 'Akıllı İletişim',
     textVoiceRecognition: 'Metin ve ses tanıma',
-    foodPhotoAnalysis: 'Yemek fotoğrafı analizi',
+    foodPhotoAnalysis: 'Görsel ve belge analizi',
     orderAutomationTitle: 'Sipariş Otomasyonu',
-    menuImport: 'Syrve\'den menü içe aktarma',
-    dishSelection: 'Yemek seçiminde yardım',
+    menuImport: 'Sisteminizden katalog içe aktarma',
+    dishSelection: 'Ürün seçiminde yardım',
     addressVerification: 'Teslimat adresi doğrulama',
     orderProcessing: 'Sipariş işleme',
     personalization: 'Kişiselleştirme',
@@ -372,7 +372,7 @@ export const translations = {
     orderReminders: 'Sipariş hatırlatıcıları',
     personalizedOffers: 'Kişiselleştirilmiş teklifler',
     works247: '7/24 çalışır. Asla yorulmaz, asla hata yapmaz, asla izin almaz.',
-    
+
     // Communication scenario
     communicationScenario: 'İletişim Senaryosu Örneği',
     step1Title: 'Müşteri istek gönderir',
@@ -388,7 +388,7 @@ export const translations = {
     step6Title: 'Müşteri onayı',
     step6Desc: 'Detaylar ve teslimat süresi ile anında bildirim',
     allInOneWindow: 'Her şey bir mesajlaşma penceresinde olur. Arama yok. Bekleme yok. Hata yok.',
-    
+
     // Service improvement
     serviceImprovement: 'Hizmet İyileştirme',
     clientBenefits: 'Müşteriler İçin Avantajlar',
@@ -409,7 +409,7 @@ export const translations = {
     realTimeAnalyticsDesc: 'Siparişler, tercihler, aktivite zirveleri hakkında raporlar',
     preciseMarketing: 'Hassas Pazarlama',
     preciseMarketingDesc: 'Hedefli kampanyalar ve promosyonlar için veriler',
-    
+
     operatorCostSavings: 'Operatör Maliyet Tasarrufu',
     traditionalModel: 'Geleneksel Model',
     operators247: '7/24 çalışma için 5-7 operatör',
@@ -431,13 +431,13 @@ export const translations = {
     savingsFromDayOne: 'tasarruf ilk günden başlar',
     repeatOrderGrowth: 'Tekrar Sipariş Artışı',
     preferenceMemory: 'Tercih Hafızası',
-    preferenceMemoryDesc: 'Sistem her müşterinin favori yemeklerini hatırlar ve bir sonraki siparişte önerir',
+    preferenceMemoryDesc: 'Sistem her müşterinin tercih ettiği ürünleri hatırlar ve bir sonraki siparişte önerir',
     personalCongratulations: 'Kişisel Tebrikler',
     personalCongratulationsDesc: 'Otomatik doğum günü kutlamaları ve özel tatil teklifleri',
     smartRecommendations: 'Akıllı Öneriler',
-    smartRecommendationsDesc: 'AI geçmişi analiz eder ve tat tercihlerine göre yeni yemekler önerir',
+    smartRecommendationsDesc: 'AI geçmişi analiz eder ve satın alma tercihlerine göre yeni ürünler önerir',
     timelyReminders: 'Zamanında Hatırlatmalar',
-    timelyRemindersDesc: 'Mevsimsel menüler, promosyonlar ve haftalık favoriler hakkında bildirimler',
+    timelyRemindersDesc: 'Mevsimsel teklifler, promosyonlar ve haftanın popüler ürünleri hakkında bildirimler',
     createsAttention: 'Bu, dikkat ve özen hissi yaratır. Müşteriler daha sık geri döner ve daha fazla sipariş verir.',
     repeatOrderGrowthPercent: 'Tekrar Sipariş Artışı',
     thanksToPersonalization: 'kişiselleştirme sayesinde',
@@ -448,7 +448,7 @@ export const translations = {
     systemSetup: 'Sistem Kurulumu',
     oneTimeIntegration: 'Altyapınızla tek seferlik entegrasyon',
     aiTraining: 'AI Eğitimi',
-    adaptation: 'Menünüze ve süreçlerinize uyarlama',
+    adaptation: 'Katalogunuza ve süreçlerinize uyarlama',
     monthlyCosts: 'Aylık Maliyetler',
     platformSubscription: 'Hacme göre AI platform aboneliği',
     technicalSupport: 'Teknik Destek',
@@ -459,11 +459,11 @@ export const translations = {
     monthsToPaybackROI: 'Geri Ödeme Süresi',
     quickReturn: 'hızlı yatırım getirisi',
     annualSavings: 'Yıllık Tasarruf',
-    perLocation: 'ortalama restoran için lokasyon başına',
+    perLocation: 'ortalama işletme için lokasyon başına',
     roiFirstYear: 'İlk Yılda ROI',
     includingGrowth: 'satış artışı ve tasarruf dahil',
     readyForTransformation: 'Dönüşüme Hazır mısınız?',
-    makesOperations: 'AI Operatör restoran operasyonlarını daha hızlı, daha akıllı ve daha karlı hale getirir. İlk aydan itibaren kendini amorti eden teknoloji.',
+    makesOperations: 'AI Operatör işletme operasyonlarını daha hızlı, daha akıllı ve daha karlı hale getirir. İlk aydan itibaren kendini amorti eden teknoloji.',
     reducesExpenses: 'Giderleri Azaltır',
     saveUpTo95: 'Operatörlerde %95\'e kadar tasarruf',
     increasesSales: 'Satışları Artırır',
@@ -475,13 +475,13 @@ export const translations = {
     easyToScale: 'Ölçeklendirmesi Kolay',
     fromOneToHundreds: 'Bir lokasyondan yüzlerce lokasyona',
     nextStep: 'Sonraki Adım',
-    readyToConnect: 'Restoranınızda bir demo bağlamaya ve sistemi test etmeye hazırsınız. İlk haftada sonuçları göreceksiniz.',
+    readyToConnect: 'İşletmeniz için bir demo bağlamaya ve sistemi test etmeye hazırsınız. İlk haftada sonuçları göreceksiniz.',
     requestDemoTitle: 'Demo İste',
     askQuestionTitle: 'Soru Sor',
     name: 'İsim',
     email: 'E-posta',
     yourQuestion: 'Sorunuz',
-    tellAboutRestaurant: 'Restoranınız hakkında bize bilgi verin, size kişiselleştirilmiş bir demo hazırlayalım...',
+    tellAboutRestaurant: 'İşletmeniz hakkında bize bilgi verin, size kişisellestirilmiş bir demo hazırlayalım...',
     askAboutSystem: 'AI Operatör sistemi hakkında bize herhangi bir soru sorun...',
     sendQuestion: 'Soruyu Gönder',
     cancel: 'İptal',
@@ -490,13 +490,13 @@ export const translations = {
     thankYouQuestion: 'Sorunuz için teşekkürler!',
     emailClientOpen: 'E-posta istemciniz otomatik olarak açılmalıdır. Lütfen isteğinizi tamamlamak için e-postayı gönderin.',
     willContactSoon: 'En kısa sürede şu adrese ulaşacağız',
-    footerDescription: 'Restoranlar için AI destekli müşteri hizmetleri otomasyonu. Operasyonları optimize edin ve müşteri memnuniyetini artırın.',
+    footerDescription: 'İşletmeler için AI destekli müşteri hizmetleri otomasyonu. Operasyonları optimize edin ve müşteri memnuniyetini artırın.',
     contactUs: 'Bize Ulaşın',
     quickLinks: 'Hızlı Bağlantılar',
     features: 'Özellikler',
     pricing: 'Fiyatlandırma',
     allRightsReserved: 'Tüm hakları saklıdır.',
-    aiPoweredAutomation: 'Restoran müşteri hizmetleri AI otomasyonu',
+    aiPoweredAutomation: 'İşletme müşteri hizmetleri AI otomasyonu',
     globalService: 'Küresel Hizmet'
   }
 };

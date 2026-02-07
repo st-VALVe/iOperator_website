@@ -8,9 +8,9 @@ interface TestimonialsProps {
 
 const testimonials = [
   {
-    quote: "iOperator transformed our customer service. We now handle 3x more inquiries without adding staff. The AI understands our menu perfectly and customers love the instant responses.",
+    quote: "iOperator transformed our customer service. We now handle 3x more inquiries without adding staff. The AI understands our business perfectly and customers love the instant responses.",
     author: "Maria K.",
-    role: "Restaurant Owner",
+    role: "Business Owner",
     company: "Bella Italia",
     avatar: "MK",
   },
@@ -22,10 +22,10 @@ const testimonials = [
     avatar: "AP",
   },
   {
-    quote: "The voice message feature is a game-changer. Our customers can just speak their orders and the AI handles everything. Reduced our order errors by 90%.",
+    quote: "The voice message feature is a game-changer. Our customers can just speak their requests and the AI handles everything. Reduced our errors by 90%.",
     author: "Dmitry S.",
     role: "Delivery Service Owner",
-    company: "FastFood Express",
+    company: "SpeedServe Logistics",
     avatar: "DS",
   },
   {
@@ -153,11 +153,10 @@ export function Testimonials({ t }: TestimonialsProps) {
                     setDirection(index > current ? 1 : -1);
                     setCurrent(index);
                   }}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === current
+                  className={`w-2 h-2 rounded-full transition-all ${index === current
                       ? 'w-6 bg-primary-500'
                       : 'bg-light-border dark:bg-dark-border hover:bg-primary-300'
-                  }`}
+                    }`}
                 />
               ))}
             </div>

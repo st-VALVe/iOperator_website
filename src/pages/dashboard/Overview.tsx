@@ -47,8 +47,8 @@ export default function Overview() {
       color: 'from-blue-500 to-blue-600',
     },
     {
-      title: t('dashboard.addMenu') || 'Add Your Menu',
-      description: t('dashboard.addMenuDesc') || 'Upload your menu for AI to learn',
+      title: t('dashboard.addCatalog') || 'Add Your Catalog',
+      description: t('dashboard.addCatalogDesc') || 'Upload your catalog for AI to learn',
       href: '/dashboard/menu',
       icon: MenuIcon,
       color: 'from-green-500 to-green-600',
@@ -104,13 +104,12 @@ export default function Overview() {
                 <stat.icon className="w-5 h-5 text-orange-600 dark:text-orange-400" />
               </div>
               <span
-                className={`text-xs font-medium px-2 py-1 rounded-full ${
-                  stat.changeType === 'positive'
+                className={`text-xs font-medium px-2 py-1 rounded-full ${stat.changeType === 'positive'
                     ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
                     : stat.changeType === 'negative'
-                    ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                    : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400'
-                }`}
+                      ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                      : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400'
+                  }`}
               >
                 {stat.change}
               </span>

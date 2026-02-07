@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import { 
-  UserPlus, 
-  Building2, 
-  Upload, 
-  Bot, 
-  Plug, 
-  Rocket 
+import {
+  UserPlus,
+  Building2,
+  Upload,
+  Bot,
+  Plug,
+  Rocket
 } from 'lucide-react';
 import { GlassCard } from '../ui';
 
@@ -36,7 +36,7 @@ const steps = [
     titleKey: 'step3Title',
     descKey: 'step3Desc',
     defaultTitle: 'Upload Your Data',
-    defaultDesc: 'Add your menu, FAQ, pricing, and other business information',
+    defaultDesc: 'Add your catalog, FAQ, pricing, and other business information',
   },
   {
     number: '04',

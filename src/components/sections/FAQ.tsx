@@ -8,7 +8,7 @@ interface FAQProps {
 const faqItems = [
   {
     question: 'How does the AI operator work?',
-    answer: 'Our AI operator uses advanced natural language processing to understand customer inquiries and provide accurate, contextual responses. It learns from your business data, menu, FAQ, and previous conversations to deliver personalized service that matches your brand voice.',
+    answer: 'Our AI operator uses advanced natural language processing to understand customer inquiries and provide accurate, contextual responses. It learns from your business data, catalog, FAQ, and previous conversations to deliver personalized service that matches your brand voice.',
   },
   {
     question: 'Which messaging platforms are supported?',
@@ -20,7 +20,7 @@ const faqItems = [
   },
   {
     question: 'How long does setup take?',
-    answer: 'Most businesses are up and running within 30 minutes. Simply create an account, add your business information, upload your menu or FAQ, connect your preferred channels, and you\'re ready to go.',
+    answer: 'Most businesses are up and running within 30 minutes. Simply create an account, add your business information, upload your catalog or FAQ, connect your preferred channels, and you\'re ready to go.',
   },
   {
     question: 'What happens if the AI can\'t answer a question?',

@@ -129,7 +129,7 @@ export default function Register() {
                 onChange={(e) => setBusinessName(e.target.value)}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                placeholder={t('auth.businessNamePlaceholder') || 'Your restaurant or business'}
+                placeholder={t('auth.businessNamePlaceholder') || 'Your business name'}
               />
             </div>
 

@@ -23,13 +23,13 @@ interface DemoMessage {
 const demoSequence: DemoMessage[] = [
   {
     id: '1',
-    content: 'Привет! Мне нужна помощь с настройкой AI-оператора для моего ресторана.',
+    content: 'Привет! Мне нужна помощь с настройкой AI-оператора для моего бизнеса.',
     sender: 'user',
     delay: 500,
   },
   {
     id: '2',
-    content: 'Конечно! Я подготовлю персонализированного AI-оператора для вашего ресторана. Он сможет принимать заказы, бронировать столики и отвечать на вопросы 24/7.',
+    content: 'Конечно! Я подготовлю персонализированного AI-оператора для вашего бизнеса. Он сможет обрабатывать запросы клиентов, отвечать на вопросы и автоматизировать общение 24/7.',
     sender: 'bot',
     delay: 1500,
   },
@@ -75,7 +75,7 @@ export function HeroChat({ }: HeroChatProps) {
 
   useEffect(() => {
     if (demoIndex >= demoSequence.length) return;
-    
+
     const msg = demoSequence[demoIndex];
     const timeout = setTimeout(() => {
       if (msg.sender === 'bot') {
@@ -103,7 +103,7 @@ export function HeroChat({ }: HeroChatProps) {
         setDemoIndex(prev => prev + 1);
       }
     }, msg.delay);
-    
+
     return () => clearTimeout(timeout);
   }, [demoIndex]);
 
@@ -205,27 +205,25 @@ export function HeroChat({ }: HeroChatProps) {
                 transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                 className={`flex gap-3 ${message.sender === 'user' ? 'flex-row-reverse' : ''}`}
               >
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.1, type: 'spring', stiffness: 500 }}
-                  className={`flex-shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg ${
-                    message.sender === 'user' 
-                      ? 'bg-gradient-to-br from-pink-400 to-pink-600' 
+                  className={`flex-shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg ${message.sender === 'user'
+                      ? 'bg-gradient-to-br from-pink-400 to-pink-600'
                       : 'bg-gradient-to-br from-primary-500 to-primary-700'
-                  }`}
+                    }`}
                 >
-                  {message.sender === 'user' 
+                  {message.sender === 'user'
                     ? <User className="w-5 h-5 text-white" />
                     : <Bot className="w-5 h-5 text-white" />
                   }
                 </motion.div>
-                <motion.div 
-                  className={`max-w-[75%] px-5 py-3.5 shadow-lg ${
-                    message.sender === 'user'
+                <motion.div
+                  className={`max-w-[75%] px-5 py-3.5 shadow-lg ${message.sender === 'user'
                       ? 'bg-white dark:bg-dark-bg-secondary rounded-2xl rounded-tr-md'
                       : 'bg-white dark:bg-dark-bg-secondary rounded-2xl rounded-tl-md'
-                  } text-light-text dark:text-dark-text`}
+                    } text-light-text dark:text-dark-text`}
                   initial={{ scale: 0.8 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.05, type: 'spring', stiffness: 400 }}
@@ -239,7 +237,7 @@ export function HeroChat({ }: HeroChatProps) {
               </motion.div>
             ))}
           </AnimatePresence>
-          
+
           <AnimatePresence>
             {isTyping && (
               <motion.div

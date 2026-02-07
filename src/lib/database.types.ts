@@ -37,7 +37,7 @@ export interface Database {
           id: string;
           user_id: string;
           name: string;
-          type: 'restaurant' | 'cafe' | 'delivery' | 'other' | null;
+          type: 'restaurant' | 'cafe' | 'retail' | 'clinic' | 'beauty' | 'education' | 'delivery' | 'hospitality' | 'logistics' | 'other' | null;
           description: string | null;
           contact_phone: string | null;
           contact_email: string | null;
@@ -52,7 +52,7 @@ export interface Database {
           id?: string;
           user_id: string;
           name: string;
-          type?: 'restaurant' | 'cafe' | 'delivery' | 'other' | null;
+          type?: 'restaurant' | 'cafe' | 'retail' | 'clinic' | 'beauty' | 'education' | 'delivery' | 'hospitality' | 'logistics' | 'other' | null;
           description?: string | null;
           contact_phone?: string | null;
           contact_email?: string | null;
@@ -67,7 +67,7 @@ export interface Database {
           id?: string;
           user_id?: string;
           name?: string;
-          type?: 'restaurant' | 'cafe' | 'delivery' | 'other' | null;
+          type?: 'restaurant' | 'cafe' | 'retail' | 'clinic' | 'beauty' | 'education' | 'delivery' | 'hospitality' | 'logistics' | 'other' | null;
           description?: string | null;
           contact_phone?: string | null;
           contact_email?: string | null;
