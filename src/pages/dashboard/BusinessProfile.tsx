@@ -9,6 +9,8 @@ import {
   type WorkingHours,
 } from '../../services/businessProfile';
 import type { Database } from '../../lib/database.types';
+import { useCRMStatus } from '../../hooks/useCRMStatus';
+import CRMManagedBanner from '../../components/ui/CRMManagedBanner';
 
 type BusinessProfileType = Database['public']['Tables']['business_profiles']['Row'];
 
@@ -32,6 +34,8 @@ const DAYS_OF_WEEK = [
 export default function BusinessProfile() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const crmStatus = useCRMStatus();
+  const crmConnected = crmStatus.isConnected;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -128,6 +132,11 @@ export default function BusinessProfile() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      {/* CRM Banner */}
+      {crmConnected && crmStatus.providerName && (
+        <CRMManagedBanner providerName={crmStatus.providerName} />
+      )}
+
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -205,13 +214,15 @@ export default function BusinessProfile() {
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t('dashboard.businessName') || 'Business Name'} *
+                {crmConnected && <span className="ml-1 text-xs text-gray-400" title="Managed by CRM">🔒</span>}
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleChange('name', e.target.value)}
                 required
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                disabled={crmConnected}
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder={t('dashboard.businessNamePlaceholder') || 'Your business name'}
               />
             </div>
@@ -262,12 +273,14 @@ export default function BusinessProfile() {
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t('dashboard.phone') || 'Phone'}
+                {crmConnected && <span className="ml-1 text-xs text-gray-400" title="Managed by CRM">🔒</span>}
               </label>
               <input
                 type="tel"
                 value={formData.contact_phone}
                 onChange={(e) => handleChange('contact_phone', e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                disabled={crmConnected}
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder="+1 234 567 8900"
               />
             </div>
@@ -288,12 +301,14 @@ export default function BusinessProfile() {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t('dashboard.address') || 'Address'}
+                {crmConnected && <span className="ml-1 text-xs text-gray-400" title="Managed by CRM">🔒</span>}
               </label>
               <input
                 type="text"
                 value={formData.address}
                 onChange={(e) => handleChange('address', e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                disabled={crmConnected}
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder={t('dashboard.addressPlaceholder') || 'Street, City, Country'}
               />
             </div>
@@ -309,6 +324,7 @@ export default function BusinessProfile() {
         >
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             {t('dashboard.workingHours') || 'Working Hours'}
+            {crmConnected && <span className="ml-2 text-xs text-gray-400" title="Managed by CRM">🔒</span>}
           </h2>
 
           <div className="space-y-3">
@@ -323,7 +339,8 @@ export default function BusinessProfile() {
                     type="checkbox"
                     checked={!day.isClosed}
                     onChange={(e) => handleWorkingHoursChange(index, 'isClosed', !e.target.checked)}
-                    className="rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                    disabled={crmConnected}
+                    className="rounded border-gray-300 text-orange-500 focus:ring-orange-500 disabled:opacity-60 disabled:cursor-not-allowed"
                   />
                   <span className="text-sm text-gray-600 dark:text-gray-400">
                     {t('dashboard.open') || 'Open'}
@@ -336,14 +353,16 @@ export default function BusinessProfile() {
                       type="time"
                       value={day.openTime}
                       onChange={(e) => handleWorkingHoursChange(index, 'openTime', e.target.value)}
-                      className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      disabled={crmConnected}
+                      className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                     />
                     <span className="text-gray-500">—</span>
                     <input
                       type="time"
                       value={day.closeTime}
                       onChange={(e) => handleWorkingHoursChange(index, 'closeTime', e.target.value)}
-                      className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      disabled={crmConnected}
+                      className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                     />
                   </>
                 )}

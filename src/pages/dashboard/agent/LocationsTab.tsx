@@ -19,6 +19,8 @@ import {
     deleteServiceArea,
     type Location,
 } from '../../../services/locations';
+import { useCRMStatus } from '../../../hooks/useCRMStatus';
+import CRMManagedBanner from '../../../components/ui/CRMManagedBanner';
 
 // =============================================
 // Main Component
@@ -26,6 +28,8 @@ import {
 
 export default function LocationsTab() {
     const { user } = useAuth();
+    const crmStatus = useCRMStatus();
+    const readOnly = crmStatus.isConnected;
     const [businessId, setBusinessId] = useState<string | null>(null);
     const [locations, setLocations] = useState<Location[]>([]);
     const [loading, setLoading] = useState(true);
@@ -107,6 +111,11 @@ export default function LocationsTab() {
 
     return (
         <div className="space-y-4">
+            {/* CRM Banner */}
+            {readOnly && crmStatus.providerName && (
+                <CRMManagedBanner providerName={crmStatus.providerName} />
+            )}
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
@@ -117,13 +126,15 @@ export default function LocationsTab() {
                         Manage branches, offices, and service points
                     </p>
                 </div>
-                <button
-                    onClick={() => setShowCreateForm(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
-                >
-                    <PlusIcon className="w-4 h-4" />
-                    Add Location
-                </button>
+                {!readOnly && (
+                    <button
+                        onClick={() => setShowCreateForm(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                        <PlusIcon className="w-4 h-4" />
+                        Add Location
+                    </button>
+                )}
             </div>
 
             {/* Error Banner */}
@@ -179,14 +190,15 @@ export default function LocationsTab() {
                         <LocationCard
                             key={location.id}
                             location={location}
-                            isEditing={editingId === location.id}
+                            isEditing={!readOnly && editingId === location.id}
                             isExpanded={expandedId === location.id}
-                            onEdit={() => setEditingId(editingId === location.id ? null : location.id)}
+                            onEdit={() => !readOnly && setEditingId(editingId === location.id ? null : location.id)}
                             onExpand={() => setExpandedId(expandedId === location.id ? null : location.id)}
                             onUpdate={handleUpdate}
                             onDelete={() => handleDelete(location.id)}
                             onToggleActive={() => handleToggleActive(location.id, !location.is_active)}
                             onServiceAreaChange={loadLocations}
+                            readOnly={readOnly}
                         />
                     ))}
                 </div>
@@ -275,6 +287,7 @@ interface LocationCardProps {
     onDelete: () => void;
     onToggleActive: () => void;
     onServiceAreaChange: () => void;
+    readOnly?: boolean;
 }
 
 function LocationCard({
@@ -287,6 +300,7 @@ function LocationCard({
     onDelete,
     onToggleActive,
     onServiceAreaChange,
+    readOnly = false,
 }: LocationCardProps) {
     const [name, setName] = useState(location.name);
     const [address, setAddress] = useState(location.address || '');
@@ -327,23 +341,27 @@ function LocationCard({
                             {hexCount} hexes
                         </span>
                     )}
-                    <button
-                        onClick={onToggleActive}
-                        className={`p-1.5 rounded-lg transition-colors ${location.is_active
-                            ? 'text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20'
-                            : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                            }`}
-                        title={location.is_active ? 'Active — click to deactivate' : 'Inactive — click to activate'}
-                    >
-                        <ToggleIcon className="w-5 h-5" active={!!location.is_active} />
-                    </button>
-                    <button
-                        onClick={onEdit}
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors"
-                        title="Edit"
-                    >
-                        <EditIcon className="w-4 h-4" />
-                    </button>
+                    {!readOnly && (
+                        <button
+                            onClick={onToggleActive}
+                            className={`p-1.5 rounded-lg transition-colors ${location.is_active
+                                ? 'text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20'
+                                : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }`}
+                            title={location.is_active ? 'Active — click to deactivate' : 'Inactive — click to activate'}
+                        >
+                            <ToggleIcon className="w-5 h-5" active={!!location.is_active} />
+                        </button>
+                    )}
+                    {!readOnly && (
+                        <button
+                            onClick={onEdit}
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors"
+                            title="Edit"
+                        >
+                            <EditIcon className="w-4 h-4" />
+                        </button>
+                    )}
                     <button
                         onClick={onExpand}
                         className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"

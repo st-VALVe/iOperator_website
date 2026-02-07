@@ -7,9 +7,9 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../../contexts/AuthContext';
 import { getOrCreateBusinessProfile } from '../../../services/businessProfile';
-import { 
-  getAvailableIntegrationsByType, 
-  getBusinessIntegrationsByType 
+import {
+  getAvailableIntegrationsByType,
+  getBusinessIntegrationsByType
 } from '../../../services/integrations';
 import type { IntegrationMeta, Integration } from '../../../types/integrations';
 import IntegrationSetupModal from './IntegrationSetupModal';
@@ -29,7 +29,7 @@ export default function CRMTab() {
 
   async function loadData() {
     if (!user) return;
-    
+
     try {
       setLoading(true);
       const business = await getOrCreateBusinessProfile(user.id);
@@ -84,7 +84,7 @@ export default function CRMTab() {
           </div>
           <div className="ml-3">
             <p className="text-sm text-blue-700 dark:text-blue-300">
-              Подключите CRM-систему для синхронизации данных о клиентах и заказах. 
+              Подключите CRM-систему для синхронизации данных о клиентах и заказах.
               Можно подключить только одну CRM одновременно.
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function CRMTab() {
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Подключена • Последняя синхронизация: {
-                    connectedCRM.last_sync_at 
+                    connectedCRM.last_sync_at
                       ? new Date(connectedCRM.last_sync_at).toLocaleString('ru-RU')
                       : 'Никогда'
                   }
@@ -128,6 +128,29 @@ export default function CRMTab() {
                 Отключить
               </button>
             </div>
+          </div>
+
+          {/* Managed tabs summary */}
+          <div className="mt-4 pt-4 border-t border-green-200 dark:border-green-800/50">
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              CRM-managed sections
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {['Locations', 'Promotions', 'Restrictions'].map((tab) => (
+                <span
+                  key={tab}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
+                >
+                  🔒 {tab}
+                </span>
+              ))}
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300">
+                🔒 Business Profile (partial)
+              </span>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              These sections are read-only while {connectedCRM.name} is connected. Disconnect to edit manually.
+            </p>
           </div>
         </div>
       )}
@@ -234,7 +257,7 @@ function getCRMColor(provider: string): string {
 function CRMIcon({ provider, className }: { provider: string; className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
     </svg>
   );
 }

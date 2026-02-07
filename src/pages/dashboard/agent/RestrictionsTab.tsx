@@ -19,6 +19,8 @@ import {
     type RestrictionType,
 } from '../../../services/serviceAreaRestrictions';
 import { getLocations, type Location } from '../../../services/locations';
+import { useCRMStatus } from '../../../hooks/useCRMStatus';
+import CRMManagedBanner from '../../../components/ui/CRMManagedBanner';
 
 const TYPE_LABELS: Record<RestrictionType, string> = {
     location_closed: 'Location Closed',
@@ -40,6 +42,8 @@ const TYPE_COLORS: Record<RestrictionType, string> = {
 
 export default function RestrictionsTab() {
     const { user } = useAuth();
+    const crmStatus = useCRMStatus();
+    const readOnly = crmStatus.isConnected;
     const [businessId, setBusinessId] = useState<string | null>(null);
     const [restrictions, setRestrictions] = useState<Restriction[]>([]);
     const [locations, setLocations] = useState<Location[]>([]);
@@ -127,6 +131,11 @@ export default function RestrictionsTab() {
 
     return (
         <div className="space-y-4">
+            {/* CRM Banner */}
+            {readOnly && crmStatus.providerName && (
+                <CRMManagedBanner providerName={crmStatus.providerName} />
+            )}
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
@@ -135,13 +144,15 @@ export default function RestrictionsTab() {
                         Temporary closures, excluded areas, and capacity limits
                     </p>
                 </div>
-                <button
-                    onClick={() => setShowCreate(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
-                >
-                    <PlusIcon className="w-4 h-4" />
-                    Add Restriction
-                </button>
+                {!readOnly && (
+                    <button
+                        onClick={() => setShowCreate(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                        <PlusIcon className="w-4 h-4" />
+                        Add Restriction
+                    </button>
+                )}
             </div>
 
             {/* Error */}
@@ -193,6 +204,7 @@ export default function RestrictionsTab() {
                             onUpdate={(updates) => handleUpdate(r.id, updates)}
                             onDelete={() => handleDelete(r.id)}
                             onToggleActive={() => handleToggle(r.id, !r.is_active)}
+                            readOnly={readOnly}
                         />
                     ))}
                 </div>
@@ -285,6 +297,7 @@ function RestrictionCard({
     onUpdate,
     onDelete,
     onToggleActive,
+    readOnly = false,
 }: {
     restriction: Restriction;
     locationName?: string;
@@ -293,6 +306,7 @@ function RestrictionCard({
     onUpdate: (updates: Partial<Restriction>) => void;
     onDelete: () => void;
     onToggleActive: () => void;
+    readOnly?: boolean;
 }) {
     const [reason, setReason] = useState(restriction.reason || '');
     const [message, setMessage] = useState(restriction.customer_message || '');
@@ -313,8 +327,8 @@ function RestrictionCard({
         <motion.div
             layout
             className={`bg-white dark:bg-gray-800 rounded-xl border transition-colors ${restriction.is_active
-                    ? 'border-red-200 dark:border-red-800/50'
-                    : 'border-gray-200 dark:border-gray-700 opacity-60'
+                ? 'border-red-200 dark:border-red-800/50'
+                : 'border-gray-200 dark:border-gray-700 opacity-60'
                 }`}
         >
             {/* Header */}
@@ -331,16 +345,18 @@ function RestrictionCard({
                 <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${TYPE_COLORS[restriction.type as RestrictionType] || TYPE_COLORS.custom}`}>
                     {TYPE_LABELS[restriction.type as RestrictionType] || restriction.type}
                 </span>
-                <button
-                    onClick={onToggleActive}
-                    className={`p-1.5 rounded-lg transition-colors ${restriction.is_active
+                {!readOnly && (
+                    <button
+                        onClick={onToggleActive}
+                        className={`p-1.5 rounded-lg transition-colors ${restriction.is_active
                             ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20'
                             : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
-                    title={restriction.is_active ? 'Active' : 'Inactive'}
-                >
-                    <ToggleIcon className="w-5 h-5" active={!!restriction.is_active} />
-                </button>
+                            }`}
+                        title={restriction.is_active ? 'Active' : 'Inactive'}
+                    >
+                        <ToggleIcon className="w-5 h-5" active={!!restriction.is_active} />
+                    </button>
+                )}
                 <button
                     onClick={onToggle}
                     className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
@@ -365,7 +381,8 @@ function RestrictionCard({
                                     type="text"
                                     value={reason}
                                     onChange={(e) => setReason(e.target.value)}
-                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    disabled={readOnly}
+                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                 />
                             </div>
 
@@ -376,7 +393,8 @@ function RestrictionCard({
                                     onChange={(e) => setMessage(e.target.value)}
                                     rows={2}
                                     placeholder="Message displayed to customers during this restriction"
-                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    disabled={readOnly}
+                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                 />
                             </div>
 
@@ -387,7 +405,8 @@ function RestrictionCard({
                                         type="date"
                                         value={startDate}
                                         onChange={(e) => setStartDate(e.target.value)}
-                                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                        disabled={readOnly}
+                                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                     />
                                 </div>
                                 <div>
@@ -396,37 +415,40 @@ function RestrictionCard({
                                         type="date"
                                         value={endDate}
                                         onChange={(e) => setEndDate(e.target.value)}
-                                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                        disabled={readOnly}
+                                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                     />
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-3">
-                                <button
-                                    onClick={handleSave}
-                                    className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
-                                >
-                                    Save
-                                </button>
-                                <button onClick={onToggle} className="px-4 py-2 text-gray-600 dark:text-gray-400 text-sm transition-colors">
-                                    Cancel
-                                </button>
-                                <div className="flex-1" />
-                                {!showDeleteConfirm ? (
+                            {!readOnly && (
+                                <div className="flex items-center gap-3">
                                     <button
-                                        onClick={() => setShowDeleteConfirm(true)}
-                                        className="px-3 py-2 text-red-500 hover:text-red-700 text-sm transition-colors"
+                                        onClick={handleSave}
+                                        className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
                                     >
-                                        Delete
+                                        Save
                                     </button>
-                                ) : (
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-sm text-red-500">Confirm?</span>
-                                        <button onClick={onDelete} className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg transition-colors">Yes</button>
-                                        <button onClick={() => setShowDeleteConfirm(false)} className="px-3 py-1.5 text-gray-500 text-xs transition-colors">No</button>
-                                    </div>
-                                )}
-                            </div>
+                                    <button onClick={onToggle} className="px-4 py-2 text-gray-600 dark:text-gray-400 text-sm transition-colors">
+                                        Cancel
+                                    </button>
+                                    <div className="flex-1" />
+                                    {!showDeleteConfirm ? (
+                                        <button
+                                            onClick={() => setShowDeleteConfirm(true)}
+                                            className="px-3 py-2 text-red-500 hover:text-red-700 text-sm transition-colors"
+                                        >
+                                            Delete
+                                        </button>
+                                    ) : (
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm text-red-500">Confirm?</span>
+                                            <button onClick={onDelete} className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg transition-colors">Yes</button>
+                                            <button onClick={() => setShowDeleteConfirm(false)} className="px-3 py-1.5 text-gray-500 text-xs transition-colors">No</button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 )}

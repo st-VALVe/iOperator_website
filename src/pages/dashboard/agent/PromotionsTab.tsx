@@ -18,6 +18,8 @@ import {
     type Promotion,
     type PromotionType,
 } from '../../../services/promotions';
+import { useCRMStatus } from '../../../hooks/useCRMStatus';
+import CRMManagedBanner from '../../../components/ui/CRMManagedBanner';
 
 const TYPE_LABELS: Record<PromotionType, string> = {
     day_of_week: 'Day of Week',
@@ -39,6 +41,8 @@ const TYPE_COLORS: Record<PromotionType, string> = {
 
 export default function PromotionsTab() {
     const { user } = useAuth();
+    const crmStatus = useCRMStatus();
+    const readOnly = crmStatus.isConnected;
     const [businessId, setBusinessId] = useState<string | null>(null);
     const [promotions, setPromotions] = useState<Promotion[]>([]);
     const [loading, setLoading] = useState(true);
@@ -114,6 +118,11 @@ export default function PromotionsTab() {
 
     return (
         <div className="space-y-4">
+            {/* CRM Banner */}
+            {readOnly && crmStatus.providerName && (
+                <CRMManagedBanner providerName={crmStatus.providerName} />
+            )}
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
@@ -122,13 +131,15 @@ export default function PromotionsTab() {
                         Manage pricing rules, discounts, and offers
                     </p>
                 </div>
-                <button
-                    onClick={() => setShowCreate(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
-                >
-                    <PlusIcon className="w-4 h-4" />
-                    Add Promotion
-                </button>
+                {!readOnly && (
+                    <button
+                        onClick={() => setShowCreate(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                        <PlusIcon className="w-4 h-4" />
+                        Add Promotion
+                    </button>
+                )}
             </div>
 
             {/* Error */}
@@ -175,6 +186,7 @@ export default function PromotionsTab() {
                             onUpdate={(updates) => handleUpdate(promo.id, updates)}
                             onDelete={() => handleDelete(promo.id)}
                             onToggleEnabled={() => handleToggle(promo.id, !promo.is_enabled)}
+                            readOnly={readOnly}
                         />
                     ))}
                 </div>
@@ -252,6 +264,7 @@ function PromotionCard({
     onUpdate,
     onDelete,
     onToggleEnabled,
+    readOnly = false,
 }: {
     promotion: Promotion;
     isExpanded: boolean;
@@ -259,6 +272,7 @@ function PromotionCard({
     onUpdate: (updates: Partial<Promotion>) => void;
     onDelete: () => void;
     onToggleEnabled: () => void;
+    readOnly?: boolean;
 }) {
     const [name, setName] = useState(promotion.name);
     const [paramsJson, setParamsJson] = useState(JSON.stringify(promotion.params || {}, null, 2));
@@ -289,8 +303,8 @@ function PromotionCard({
         <motion.div
             layout
             className={`bg-white dark:bg-gray-800 rounded-xl border transition-colors ${promotion.is_enabled
-                    ? 'border-gray-200 dark:border-gray-700'
-                    : 'border-gray-200 dark:border-gray-700 opacity-60'
+                ? 'border-gray-200 dark:border-gray-700'
+                : 'border-gray-200 dark:border-gray-700 opacity-60'
                 }`}
         >
             {/* Header */}
@@ -302,16 +316,18 @@ function PromotionCard({
                 <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${TYPE_COLORS[promotion.type]}`}>
                     {TYPE_LABELS[promotion.type]}
                 </span>
-                <button
-                    onClick={onToggleEnabled}
-                    className={`p-1.5 rounded-lg transition-colors ${promotion.is_enabled
+                {!readOnly && (
+                    <button
+                        onClick={onToggleEnabled}
+                        className={`p-1.5 rounded-lg transition-colors ${promotion.is_enabled
                             ? 'text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20'
                             : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
-                    title={promotion.is_enabled ? 'Enabled' : 'Disabled'}
-                >
-                    <ToggleIcon className="w-5 h-5" enabled={!!promotion.is_enabled} />
-                </button>
+                            }`}
+                        title={promotion.is_enabled ? 'Enabled' : 'Disabled'}
+                    >
+                        <ToggleIcon className="w-5 h-5" enabled={!!promotion.is_enabled} />
+                    </button>
+                )}
                 <button
                     onClick={onToggle}
                     className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
@@ -336,7 +352,8 @@ function PromotionCard({
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    disabled={readOnly}
+                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                 />
                             </div>
 
@@ -348,9 +365,10 @@ function PromotionCard({
                                     value={paramsJson}
                                     onChange={(e) => { setParamsJson(e.target.value); setJsonError(null); }}
                                     rows={4}
-                                    className={`w-full px-3 py-2 text-sm rounded-lg border bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-mono focus:ring-2 focus:ring-orange-500 focus:border-transparent ${jsonError
-                                            ? 'border-red-400 dark:border-red-600'
-                                            : 'border-gray-300 dark:border-gray-600'
+                                    disabled={readOnly}
+                                    className={`w-full px-3 py-2 text-sm rounded-lg border bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-mono focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed ${jsonError
+                                        ? 'border-red-400 dark:border-red-600'
+                                        : 'border-gray-300 dark:border-gray-600'
                                         }`}
                                 />
                                 {jsonError && <p className="text-xs text-red-500 mt-1">{jsonError}</p>}
@@ -365,49 +383,52 @@ function PromotionCard({
                                     value={patterns}
                                     onChange={(e) => setPatterns(e.target.value)}
                                     placeholder="pizza*, *combo*"
-                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    disabled={readOnly}
+                                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-60 disabled:cursor-not-allowed"
                                 />
                             </div>
 
-                            <div className="flex items-center gap-3">
-                                <button
-                                    onClick={handleSave}
-                                    className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
-                                >
-                                    Save
-                                </button>
-                                <button
-                                    onClick={onToggle}
-                                    className="px-4 py-2 text-gray-600 dark:text-gray-400 text-sm transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <div className="flex-1" />
-                                {!showDeleteConfirm ? (
+                            {!readOnly && (
+                                <div className="flex items-center gap-3">
                                     <button
-                                        onClick={() => setShowDeleteConfirm(true)}
-                                        className="px-3 py-2 text-red-500 hover:text-red-700 text-sm transition-colors"
+                                        onClick={handleSave}
+                                        className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
                                     >
-                                        Delete
+                                        Save
                                     </button>
-                                ) : (
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-sm text-red-500">Confirm?</span>
+                                    <button
+                                        onClick={onToggle}
+                                        className="px-4 py-2 text-gray-600 dark:text-gray-400 text-sm transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <div className="flex-1" />
+                                    {!showDeleteConfirm ? (
                                         <button
-                                            onClick={onDelete}
-                                            className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg transition-colors"
+                                            onClick={() => setShowDeleteConfirm(true)}
+                                            className="px-3 py-2 text-red-500 hover:text-red-700 text-sm transition-colors"
                                         >
-                                            Yes
+                                            Delete
                                         </button>
-                                        <button
-                                            onClick={() => setShowDeleteConfirm(false)}
-                                            className="px-3 py-1.5 text-gray-500 text-xs transition-colors"
-                                        >
-                                            No
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
+                                    ) : (
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm text-red-500">Confirm?</span>
+                                            <button
+                                                onClick={onDelete}
+                                                className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-lg transition-colors"
+                                            >
+                                                Yes
+                                            </button>
+                                            <button
+                                                onClick={() => setShowDeleteConfirm(false)}
+                                                className="px-3 py-1.5 text-gray-500 text-xs transition-colors"
+                                            >
+                                                No
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 )}
