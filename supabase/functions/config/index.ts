@@ -41,7 +41,7 @@ serve(async (req) => {
     }
 
     const apiKey = authHeader.replace('Bearer ', '');
-    
+
     // Validate API key format
     if (!apiKey.startsWith('iop_') || apiKey.length < 36) {
       return new Response(
@@ -75,12 +75,75 @@ serve(async (req) => {
 
     const businessId = keyData.business_id;
 
-    // Get business profile
-    const { data: business, error: businessError } = await supabase
-      .from('business_profiles')
-      .select('*')
-      .eq('id', businessId)
-      .single();
+    // Fetch all data in parallel
+    const [
+      { data: business, error: businessError },
+      { data: prompt },
+      { data: integrations },
+      { data: menuItems },
+      { data: locations },
+      { data: promotions },
+      { data: restrictions },
+      { data: botSettings },
+    ] = await Promise.all([
+      // Business profile
+      supabase
+        .from('business_profiles')
+        .select('*')
+        .eq('id', businessId)
+        .single(),
+
+      // Active prompt
+      supabase
+        .from('prompt_templates')
+        .select('content, version, updated_at')
+        .eq('business_id', businessId)
+        .eq('is_active', true)
+        .single(),
+
+      // Active integrations
+      supabase
+        .from('integrations')
+        .select('*')
+        .eq('business_id', businessId)
+        .eq('status', 'active'),
+
+      // Catalog items
+      supabase
+        .from('menu_items')
+        .select('*')
+        .eq('business_id', businessId)
+        .eq('available', true)
+        .order('sort_order', { ascending: true }),
+
+      // Locations with service areas
+      supabase
+        .from('locations')
+        .select('*, service_areas(*)')
+        .eq('business_id', businessId)
+        .order('sort_order', { ascending: true }),
+
+      // Enabled promotions
+      supabase
+        .from('promotions')
+        .select('*')
+        .eq('business_id', businessId)
+        .eq('is_enabled', true)
+        .order('sort_order', { ascending: true }),
+
+      // Active restrictions
+      supabase
+        .from('service_area_restrictions')
+        .select('*')
+        .eq('business_id', businessId)
+        .eq('is_active', true),
+
+      // All bot settings
+      supabase
+        .from('bot_settings')
+        .select('category, key, value')
+        .eq('business_id', businessId),
+    ]);
 
     if (businessError || !business) {
       return new Response(
@@ -89,60 +152,25 @@ serve(async (req) => {
       );
     }
 
-    // Get active prompt
-    const { data: prompt } = await supabase
-      .from('prompt_templates')
-      .select('content')
-      .eq('business_id', businessId)
-      .eq('is_active', true)
-      .single();
-
-    // Get active integrations
-    const { data: integrations } = await supabase
-      .from('integrations')
-      .select('*')
-      .eq('business_id', businessId)
-      .eq('status', 'active');
-
-    // Get menu items (catalog)
-    const { data: menuItems } = await supabase
-      .from('menu_items')
-      .select('*')
-      .eq('business_id', businessId)
-      .eq('available', true)
-      .order('sort_order', { ascending: true });
-
     // Build channels config
-    const channels = (integrations || [])
-      .filter(i => i.type === 'channel')
-      .map(i => ({
-        provider: i.provider,
-        enabled: true,
-        // Note: credentials are decrypted on Bot Engine side
-        credentials_encrypted: i.config_encrypted,
-      }));
+    const channelIntegrations = (integrations || []).filter((i: any) => i.type === 'channel');
+    const channelsMap: Record<string, { enabled: boolean; settings?: Record<string, unknown> }> = {};
+    for (const ch of channelIntegrations) {
+      channelsMap[ch.provider] = { enabled: true };
+    }
 
     // Build CRM config
-    const crmIntegration = (integrations || []).find(i => i.type === 'crm');
+    const crmIntegration = (integrations || []).find((i: any) => i.type === 'crm');
     const crm = crmIntegration
-      ? {
-          provider: crmIntegration.provider,
-          credentials_encrypted: crmIntegration.config_encrypted,
-          sync_contacts: true,
-          sync_orders: true,
-        }
-      : null;
+      ? { provider: crmIntegration.provider, settings: {} }
+      : undefined;
 
-    // Build catalog
-    const catalog = (menuItems || []).map(item => ({
-      id: item.id,
+    // Build catalog for variable substitution
+    const catalog = (menuItems || []).map((item: any) => ({
       name: item.name,
-      description: item.description,
       price: item.price,
       currency: item.currency,
       category: item.category,
-      image_url: item.image_url,
-      available: item.available,
     }));
 
     // Substitute variables in prompt
@@ -156,6 +184,57 @@ serve(async (req) => {
       catalog_summary: formatCatalogSummary(catalog),
     });
 
+    // Build locations array with nested service areas
+    const locationsData = (locations || []).map((loc: any) => ({
+      id: loc.id,
+      name: loc.name,
+      address: loc.address,
+      lat: loc.lat,
+      lng: loc.lng,
+      isActive: loc.is_active,
+      credentials: loc.credentials,
+      settings: loc.settings,
+      serviceArea: loc.service_areas?.[0]
+        ? {
+          hexes: loc.service_areas[0].hexes,
+          resolution: loc.service_areas[0].resolution,
+          geojson: loc.service_areas[0].geojson,
+        }
+        : undefined,
+    }));
+
+    // Build promotions array
+    const promotionsData = (promotions || []).map((p: any) => ({
+      id: p.id,
+      name: p.name,
+      type: p.type,
+      params: p.params,
+      productPatterns: p.product_patterns,
+    }));
+
+    // Build restrictions array
+    const restrictionsData = (restrictions || []).map((r: any) => ({
+      id: r.id,
+      type: r.type,
+      affectedLocationId: r.affected_location_id,
+      reason: r.reason,
+      excludedAreas: r.excluded_areas,
+      startDate: r.start_date,
+      endDate: r.end_date,
+      customerMessage: r.customer_message,
+      alternatives: r.alternatives,
+    }));
+
+    // Build bot settings map (category.key → value)
+    const settingsMap: Record<string, Record<string, unknown>> = {};
+    for (const s of botSettings || []) {
+      const setting = s as any;
+      if (!settingsMap[setting.category]) {
+        settingsMap[setting.category] = {};
+      }
+      settingsMap[setting.category][setting.key] = setting.value;
+    }
+
     // Update last_used_at
     await supabase
       .from('bot_api_keys')
@@ -163,24 +242,30 @@ serve(async (req) => {
       .eq('business_id', businessId)
       .is('revoked_at', null);
 
-    // Build response
-    const config = {
-      business_id: businessId,
-      business_name: business.name,
-      business_type: business.type || 'other',
-      prompt: processedPrompt,
-      channels,
-      crm,
-      catalog,
-      settings: {
-        language: 'ru',
-        timezone: 'Europe/Moscow',
-        working_hours: business.working_hours || [],
+    // Build response matching RemoteConfig type expected by bot engine
+    const responseBody = {
+      systemPrompt: processedPrompt,
+      promptVersion: prompt?.version ?? 1,
+      promptUpdatedAt: prompt?.updated_at ?? new Date().toISOString(),
+      businessProfile: {
+        name: business.name,
+        workingHours: business.working_hours || [],
+        settings: {
+          type: business.type || 'other',
+          timezone: business.timezone || 'Europe/Istanbul',
+        },
       },
+      channels: Object.keys(channelsMap).length > 0 ? channelsMap : undefined,
+      crm,
+      // New fields from Phase B/C/D
+      locations: locationsData.length > 0 ? locationsData : undefined,
+      promotions: promotionsData.length > 0 ? promotionsData : undefined,
+      restrictions: restrictionsData.length > 0 ? restrictionsData : undefined,
+      botSettings: Object.keys(settingsMap).length > 0 ? settingsMap : undefined,
     };
 
     return new Response(
-      JSON.stringify({ success: true, config }),
+      JSON.stringify(responseBody),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
@@ -209,7 +294,7 @@ function substituteVariables(content: string, values: Record<string, string>): s
 }
 
 function formatWorkingHours(hours: unknown): string {
-  if (!Array.isArray(hours) || hours.length === 0) return 'Не указано';
+  if (!Array.isArray(hours) || hours.length === 0) return 'Not specified';
   return hours
     .filter((h: { is_closed?: boolean }) => !h.is_closed)
     .map((h: { day?: string; open?: string; close?: string }) => `${h.day}: ${h.open}-${h.close}`)
@@ -217,6 +302,6 @@ function formatWorkingHours(hours: unknown): string {
 }
 
 function formatCatalogSummary(catalog: Array<{ name: string; price: number; currency: string; category?: string | null }>): string {
-  if (catalog.length === 0) return 'Каталог пуст';
+  if (catalog.length === 0) return 'Catalog is empty';
   return catalog.map(i => `- ${i.name}: ${i.price} ${i.currency}`).join('\n');
 }

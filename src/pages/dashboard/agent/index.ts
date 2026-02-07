@@ -3,3 +3,7 @@ export { default as ChannelsTab } from './ChannelsTab';
 export { default as CRMTab } from './CRMTab';
 export { default as PromptsTab } from './PromptsTab';
 export { default as IntegrationSetupModal } from './IntegrationSetupModal';
+export { default as BotSettingsTab } from './BotSettingsTab';
+export { default as LocationsTab } from './LocationsTab';
+export { default as PromotionsTab } from './PromotionsTab';
+export { default as RestrictionsTab } from './RestrictionsTab';

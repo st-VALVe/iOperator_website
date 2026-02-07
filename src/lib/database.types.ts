@@ -414,6 +414,196 @@ export interface Database {
           created_at?: string;
         };
       };
+      // =============================================
+      // Bot Configuration Tables (Migration 004)
+      // =============================================
+      locations: {
+        Row: {
+          id: string;
+          business_id: string;
+          name: string;
+          address: string | null;
+          lat: number | null;
+          lng: number | null;
+          is_active: boolean;
+          credentials: Json;
+          settings: Json;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          business_id: string;
+          name: string;
+          address?: string | null;
+          lat?: number | null;
+          lng?: number | null;
+          is_active?: boolean;
+          credentials?: Json;
+          settings?: Json;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          business_id?: string;
+          name?: string;
+          address?: string | null;
+          lat?: number | null;
+          lng?: number | null;
+          is_active?: boolean;
+          credentials?: Json;
+          settings?: Json;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      service_areas: {
+        Row: {
+          id: string;
+          location_id: string;
+          hexes: string[];
+          resolution: number;
+          geojson: Json | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          location_id: string;
+          hexes?: string[];
+          resolution?: number;
+          geojson?: Json | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          location_id?: string;
+          hexes?: string[];
+          resolution?: number;
+          geojson?: Json | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      service_area_restrictions: {
+        Row: {
+          id: string;
+          business_id: string;
+          type: 'location_closed' | 'area_excluded' | 'capacity_limited' | 'custom';
+          affected_location_id: string | null;
+          reason: string | null;
+          excluded_areas: Json;
+          start_date: string | null;
+          end_date: string | null;
+          customer_message: string | null;
+          alternatives: Json;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          business_id: string;
+          type: 'location_closed' | 'area_excluded' | 'capacity_limited' | 'custom';
+          affected_location_id?: string | null;
+          reason?: string | null;
+          excluded_areas?: Json;
+          start_date?: string | null;
+          end_date?: string | null;
+          customer_message?: string | null;
+          alternatives?: Json;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          business_id?: string;
+          type?: 'location_closed' | 'area_excluded' | 'capacity_limited' | 'custom';
+          affected_location_id?: string | null;
+          reason?: string | null;
+          excluded_areas?: Json;
+          start_date?: string | null;
+          end_date?: string | null;
+          customer_message?: string | null;
+          alternatives?: Json;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      promotions: {
+        Row: {
+          id: string;
+          business_id: string;
+          name: string;
+          type: 'day_of_week' | 'time_range' | 'fixed' | 'custom';
+          params: Json;
+          product_patterns: string[];
+          is_enabled: boolean;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          business_id: string;
+          name: string;
+          type: 'day_of_week' | 'time_range' | 'fixed' | 'custom';
+          params?: Json;
+          product_patterns?: string[];
+          is_enabled?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          business_id?: string;
+          name?: string;
+          type?: 'day_of_week' | 'time_range' | 'fixed' | 'custom';
+          params?: Json;
+          product_patterns?: string[];
+          is_enabled?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      bot_settings: {
+        Row: {
+          id: string;
+          business_id: string;
+          category: string;
+          key: string;
+          value: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          business_id: string;
+          category: string;
+          key: string;
+          value: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          business_id?: string;
+          category?: string;
+          key?: string;
+          value?: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
     Views: {};
     Functions: {};
