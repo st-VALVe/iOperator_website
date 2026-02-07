@@ -19,11 +19,11 @@ export function CTA({ t, onRequestDemo }: CTAProps) {
         >
           {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700" />
-          
+
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-          
+
           {/* Content */}
           <div className="relative z-10 px-8 py-16 md:px-16 md:py-20 text-center">
             <motion.div
@@ -33,15 +33,15 @@ export function CTA({ t, onRequestDemo }: CTAProps) {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium mb-6"
             >
               <Sparkles className="w-4 h-4" />
-              Start your free trial today
+              {t('ctaBadge') || 'Start your free trial today'}
             </motion.div>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Ready to transform your<br />customer service?
+              {t('ctaHeading') || 'Ready to transform your customer service?'}
             </h2>
-            
+
             <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
-              Join hundreds of businesses already using AI-powered operators to deliver exceptional customer experiences 24/7.
+              {t('ctaSubtitle') || 'Join hundreds of businesses already using AI-powered operators to deliver exceptional customer experiences 24/7.'}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -51,7 +51,7 @@ export function CTA({ t, onRequestDemo }: CTAProps) {
                 variant="secondary"
                 className="bg-white text-primary-600 hover:bg-white/90 border-0"
               >
-                Get Started Free
+                {t('ctaButton1') || 'Get Started Free'}
                 <ArrowRight className="inline-block ml-2 w-5 h-5" />
               </GradientButton>
               <GradientButton
@@ -59,12 +59,12 @@ export function CTA({ t, onRequestDemo }: CTAProps) {
                 variant="outline"
                 className="bg-white/10 text-white border-white/20 hover:bg-white/20"
               >
-                Schedule a Demo
+                {t('ctaButton2') || 'Schedule a Demo'}
               </GradientButton>
             </div>
 
             <p className="mt-6 text-white/60 text-sm">
-              No credit card required • 14-day free trial • Cancel anytime
+              {t('ctaFinePrint') || 'No credit card required • 14-day free trial • Cancel anytime'}
             </p>
           </div>
         </motion.div>

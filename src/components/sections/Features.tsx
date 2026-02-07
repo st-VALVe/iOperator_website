@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
-import { 
-  Bot, 
-  MessageSquare, 
-  Clock, 
-  Globe, 
-  Zap, 
+import {
+  Bot,
+  MessageSquare,
+  Clock,
+  Globe,
+  Zap,
   Shield,
   BarChart3,
   Mic,
@@ -57,7 +57,11 @@ const features = [
 ];
 
 // Default translations for features
-const defaultFeatures = {
+const defaultFeatures: Record<string, string> = {
+  featuresBadge: 'Features',
+  featuresHeading1: 'Everything you need to',
+  featuresHeading2: 'automate support',
+  featuresSubtitle: 'Powerful features designed to transform your customer service experience',
   feature1Title: 'AI-Powered Conversations',
   feature1Desc: 'Natural language processing that understands context and intent, providing human-like responses to your customers.',
   feature2Title: 'Multi-Channel Support',
@@ -70,12 +74,18 @@ const defaultFeatures = {
   feature5Desc: 'Reduce wait times to zero. Customers get immediate answers to their questions.',
   feature6Title: 'Secure & Private',
   feature6Desc: 'Enterprise-grade security with end-to-end encryption and GDPR compliance.',
+  analyticsCard: 'Analytics Dashboard',
+  analyticsCardDesc: 'Track conversations, measure satisfaction, and optimize performance with detailed insights.',
+  voiceCard: 'Voice Support',
+  voiceCardDesc: 'Accept voice messages and respond with natural speech synthesis.',
+  easySetupCard: 'Easy Setup',
+  easySetupCardDesc: 'Get started in minutes with our intuitive configuration wizard.',
 };
 
 export function Features({ t }: FeaturesProps) {
   const getFeatureText = (key: string) => {
     const translated = t(key);
-    return translated !== key ? translated : defaultFeatures[key as keyof typeof defaultFeatures] || key;
+    return translated !== key ? translated : defaultFeatures[key] || key;
   };
 
   return (
@@ -89,14 +99,14 @@ export function Features({ t }: FeaturesProps) {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-medium mb-4">
-            Features
+            {getFeatureText('featuresBadge')}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-light-text dark:text-dark-text mb-4">
-            Everything you need to{' '}
-            <span className="gradient-text">automate support</span>
+            {getFeatureText('featuresHeading1')}{' '}
+            <span className="gradient-text">{getFeatureText('featuresHeading2')}</span>
           </h2>
           <p className="text-xl text-light-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto">
-            Powerful features designed to transform your customer service experience
+            {getFeatureText('featuresSubtitle')}
           </p>
         </motion.div>
 
@@ -123,9 +133,9 @@ export function Features({ t }: FeaturesProps) {
             className="p-6 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-white"
           >
             <BarChart3 className="w-8 h-8 mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Analytics Dashboard</h3>
+            <h3 className="text-xl font-semibold mb-2">{getFeatureText('analyticsCard')}</h3>
             <p className="text-white/80 text-sm">
-              Track conversations, measure satisfaction, and optimize performance with detailed insights.
+              {getFeatureText('analyticsCardDesc')}
             </p>
           </motion.div>
 
@@ -137,9 +147,9 @@ export function Features({ t }: FeaturesProps) {
             className="p-6 rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border dark:border-dark-border"
           >
             <Mic className="w-8 h-8 mb-4 text-primary-500" />
-            <h3 className="text-xl font-semibold text-light-text dark:text-dark-text mb-2">Voice Support</h3>
+            <h3 className="text-xl font-semibold text-light-text dark:text-dark-text mb-2">{getFeatureText('voiceCard')}</h3>
             <p className="text-light-text-secondary dark:text-dark-text-secondary text-sm">
-              Accept voice messages and respond with natural speech synthesis.
+              {getFeatureText('voiceCardDesc')}
             </p>
           </motion.div>
 
@@ -151,9 +161,9 @@ export function Features({ t }: FeaturesProps) {
             className="p-6 rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border dark:border-dark-border"
           >
             <Settings className="w-8 h-8 mb-4 text-primary-500" />
-            <h3 className="text-xl font-semibold text-light-text dark:text-dark-text mb-2">Easy Setup</h3>
+            <h3 className="text-xl font-semibold text-light-text dark:text-dark-text mb-2">{getFeatureText('easySetupCard')}</h3>
             <p className="text-light-text-secondary dark:text-dark-text-secondary text-sm">
-              Get started in minutes with our intuitive configuration wizard.
+              {getFeatureText('easySetupCardDesc')}
             </p>
           </motion.div>
         </div>

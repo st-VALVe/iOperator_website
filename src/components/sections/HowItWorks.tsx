@@ -17,48 +17,48 @@ const steps = [
   {
     number: '01',
     icon: UserPlus,
-    titleKey: 'step1Title',
-    descKey: 'step1Desc',
+    titleKey: 'hiwStep1Title',
+    descKey: 'hiwStep1Desc',
     defaultTitle: 'Create Account',
     defaultDesc: 'Sign up in seconds with email or Google authentication',
   },
   {
     number: '02',
     icon: Building2,
-    titleKey: 'step2Title',
-    descKey: 'step2Desc',
+    titleKey: 'hiwStep2Title',
+    descKey: 'hiwStep2Desc',
     defaultTitle: 'Setup Business Profile',
     defaultDesc: 'Tell us about your business, services, and target audience',
   },
   {
     number: '03',
     icon: Upload,
-    titleKey: 'step3Title',
-    descKey: 'step3Desc',
+    titleKey: 'hiwStep3Title',
+    descKey: 'hiwStep3Desc',
     defaultTitle: 'Upload Your Data',
     defaultDesc: 'Add your catalog, FAQ, pricing, and other business information',
   },
   {
     number: '04',
     icon: Bot,
-    titleKey: 'step4Title',
-    descKey: 'step4Desc',
+    titleKey: 'hiwStep4Title',
+    descKey: 'hiwStep4Desc',
     defaultTitle: 'Train Your AI',
     defaultDesc: 'Our AI learns your business and creates personalized responses',
   },
   {
     number: '05',
     icon: Plug,
-    titleKey: 'step5Title',
-    descKey: 'step5Desc',
+    titleKey: 'hiwStep5Title',
+    descKey: 'hiwStep5Desc',
     defaultTitle: 'Connect Channels',
     defaultDesc: 'Link Telegram, WhatsApp, or embed chat on your website',
   },
   {
     number: '06',
     icon: Rocket,
-    titleKey: 'step6Title',
-    descKey: 'step6Desc',
+    titleKey: 'hiwStep6Title',
+    descKey: 'hiwStep6Desc',
     defaultTitle: 'Go Live',
     defaultDesc: 'Start handling customer inquiries automatically 24/7',
   },
@@ -96,14 +96,14 @@ export function HowItWorks({ t }: HowItWorksProps) {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-medium mb-4">
-            How It Works
+            {getText('howItWorksBadge', 'How It Works')}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-light-text dark:text-dark-text mb-4">
-            Get started in{' '}
-            <span className="gradient-text">6 simple steps</span>
+            {getText('howItWorksHeading1', 'Get started in')}{' '}
+            <span className="gradient-text">{getText('howItWorksHeading2', '6 simple steps')}</span>
           </h2>
           <p className="text-xl text-light-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto">
-            From signup to live AI operator in minutes, not days
+            {getText('howItWorksSubtitle', 'From signup to live AI operator in minutes, not days')}
           </p>
         </motion.div>
 

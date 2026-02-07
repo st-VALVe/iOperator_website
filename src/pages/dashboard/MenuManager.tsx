@@ -107,7 +107,7 @@ export default function MenuManager() {
       }
 
       setIsModalOpen(false);
-      
+
       // Refresh categories
       const cats = await getCategories(businessId);
       setCategories(cats);
@@ -147,10 +147,10 @@ export default function MenuManager() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {t('dashboard.menuManager') || 'Menu Manager'}
+            {t('dashboard.catalogManager') || 'Catalog'}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            {t('dashboard.menuManagerDesc') || 'Manage your menu items for the AI operator'}
+            {t('dashboard.catalogManagerDesc') || 'Manage your catalog items for the AI operator'}
           </p>
         </div>
         <button
@@ -176,11 +176,10 @@ export default function MenuManager() {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              selectedCategory === null
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === null
                 ? 'bg-orange-500 text-white'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-            }`}
+              }`}
           >
             {t('dashboard.allCategories') || 'All'}
           </button>
@@ -188,11 +187,10 @@ export default function MenuManager() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedCategory === cat
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === cat
                   ? 'bg-orange-500 text-white'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -200,7 +198,7 @@ export default function MenuManager() {
         </div>
       )}
 
-      {/* Menu items grid */}
+      {/* Catalog items grid */}
       {filteredItems.length === 0 ? (
         <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
           <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -209,10 +207,10 @@ export default function MenuManager() {
             </svg>
           </div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-            {t('dashboard.noMenuItems') || 'No menu items yet'}
+            {t('dashboard.noCatalogItems') || 'No catalog items yet'}
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            {t('dashboard.addFirstItem') || 'Add your first menu item to get started'}
+            {t('dashboard.addFirstItem') || 'Add your first catalog item to get started'}
           </p>
           <button
             onClick={handleAddItem}
@@ -249,7 +247,7 @@ export default function MenuManager() {
                     </svg>
                   </div>
                 )}
-                
+
                 {/* Availability badge */}
                 {!item.available && (
                   <div className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white text-xs font-medium rounded">
@@ -415,7 +413,7 @@ function MenuItemModal({
             onClick={onClose}
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           />
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

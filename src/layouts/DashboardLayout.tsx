@@ -8,7 +8,7 @@ import { ThemeToggle } from '../components/ui/ThemeToggle';
 const navigation = [
   { name: 'dashboard.overview', href: '/dashboard', icon: HomeIcon },
   { name: 'dashboard.profile', href: '/dashboard/profile', icon: BuildingIcon },
-  { name: 'dashboard.menu', href: '/dashboard/menu', icon: MenuIcon },
+  { name: 'dashboard.catalog', href: '/dashboard/menu', icon: MenuIcon },
   { name: 'dashboard.agent', href: '/dashboard/agent', icon: AgentIcon },
   { name: 'dashboard.analytics', href: '/dashboard/analytics', icon: ChartIcon },
   { name: 'dashboard.settings', href: '/dashboard/settings', icon: SettingsIcon },
@@ -98,7 +98,7 @@ export default function DashboardLayout() {
             {/* Right side */}
             <div className="flex items-center gap-4">
               <ThemeToggle />
-              
+
               {/* User menu */}
               <div className="relative group">
                 <button className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -109,7 +109,7 @@ export default function DashboardLayout() {
                     {user?.email?.split('@')[0] || 'User'}
                   </span>
                 </button>
-                
+
                 {/* Dropdown */}
                 <div className="absolute right-0 mt-2 w-48 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
                   <Link
@@ -180,10 +180,9 @@ function SidebarContent({
             end={item.href === '/dashboard'}
             onClick={onClose}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+              `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
+                ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400'
+                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`
             }
           >
