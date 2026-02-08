@@ -14,6 +14,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import DashboardLayout from './layouts/DashboardLayout';
 import { Overview, BusinessProfile, MenuManager } from './pages/dashboard';
 import AgentPage from './pages/dashboard/agent/AgentPage';
+import CustomersPage from './pages/dashboard/CustomersPage';
 import SettingsPage from './pages/dashboard/settings/SettingsPage';
 
 // Protected Route Component
@@ -74,7 +75,7 @@ function AppRoutes() {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
       document.documentElement.classList.add('dark');
     } else {
@@ -99,7 +100,7 @@ function AppRoutes() {
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Landing language={language} setLanguage={handleSetLanguage} />} />
-        
+
         {/* Auth routes */}
         <Route
           path="/login"
@@ -132,6 +133,7 @@ function AppRoutes() {
           <Route path="profile" element={<BusinessProfile />} />
           <Route path="menu" element={<MenuManager />} />
           <Route path="agent" element={<AgentPage />} />
+          <Route path="customers" element={<CustomersPage />} />
           <Route path="analytics" element={<PlaceholderPage title="Analytics" />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
